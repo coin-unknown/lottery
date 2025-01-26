@@ -11,9 +11,11 @@ declare global {
 
 const createWidget = (config: WidgetConfig) => {
   console.log(config);
-  const widgetContainer = document.createElement('div');
-  widgetContainer.id = 'sdk-widget-root';
-  document.body.appendChild(widgetContainer);
+  const widgetContainer = document.getElementById('lottery-widget');
+
+  if (!widgetContainer) {
+    throw new Error('Widget container not found');
+  }
 
   const root = ReactDOM.createRoot(widgetContainer);
   root.render(
