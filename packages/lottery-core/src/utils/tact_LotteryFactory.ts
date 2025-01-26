@@ -1,20 +1,20 @@
 import {
-	type ABIGetter,
-	type ABIReceiver,
-	type ABIType,
-	type Address,
-	Builder,
 	Cell,
-	type Contract,
-	type ContractABI,
-	type ContractProvider,
-	Dictionary,
-	type DictionaryValue,
-	type Sender,
 	Slice,
-	TupleBuilder,
+	Address,
+	Builder,
 	beginCell,
+	Dictionary,
 	contractAddress,
+	ContractProvider,
+	Sender,
+	Contract,
+	ContractABI,
+	ABIType,
+	ABIGetter,
+	ABIReceiver,
+	TupleBuilder,
+	DictionaryValue,
 } from "@ton/core";
 
 export type StateInit = {
@@ -25,16 +25,16 @@ export type StateInit = {
 
 export function storeStateInit(src: StateInit) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeRef(src.code);
-		b0.storeRef(src.data);
+		let b_0 = builder;
+		b_0.storeRef(src.code);
+		b_0.storeRef(src.data);
 	};
 }
 
 export function loadStateInit(slice: Slice) {
-	const sc0 = slice;
-	const _code = sc0.loadRef();
-	const _data = sc0.loadRef();
+	let sc_0 = slice;
+	let _code = sc_0.loadRef();
+	let _data = sc_0.loadRef();
 	return { $$type: "StateInit" as const, code: _code, data: _data };
 }
 
@@ -46,16 +46,16 @@ export type StdAddress = {
 
 export function storeStdAddress(src: StdAddress) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.workchain, 8);
-		b0.storeUint(src.address, 256);
+		let b_0 = builder;
+		b_0.storeInt(src.workchain, 8);
+		b_0.storeUint(src.address, 256);
 	};
 }
 
 export function loadStdAddress(slice: Slice) {
-	const sc0 = slice;
-	const _workchain = sc0.loadIntBig(8);
-	const _address = sc0.loadUintBig(256);
+	let sc_0 = slice;
+	let _workchain = sc_0.loadIntBig(8);
+	let _address = sc_0.loadUintBig(256);
 	return {
 		$$type: "StdAddress" as const,
 		workchain: _workchain,
@@ -71,16 +71,16 @@ export type VarAddress = {
 
 export function storeVarAddress(src: VarAddress) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.workchain, 32);
-		b0.storeRef(src.address.asCell());
+		let b_0 = builder;
+		b_0.storeInt(src.workchain, 32);
+		b_0.storeRef(src.address.asCell());
 	};
 }
 
 export function loadVarAddress(slice: Slice) {
-	const sc0 = slice;
-	const _workchain = sc0.loadIntBig(32);
-	const _address = sc0.loadRef().asSlice();
+	let sc_0 = slice;
+	let _workchain = sc_0.loadIntBig(32);
+	let _address = sc_0.loadRef().asSlice();
 	return {
 		$$type: "VarAddress" as const,
 		workchain: _workchain,
@@ -98,20 +98,20 @@ export type Context = {
 
 export function storeContext(src: Context) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeBit(src.bounced);
-		b0.storeAddress(src.sender);
-		b0.storeInt(src.value, 257);
-		b0.storeRef(src.raw.asCell());
+		let b_0 = builder;
+		b_0.storeBit(src.bounced);
+		b_0.storeAddress(src.sender);
+		b_0.storeInt(src.value, 257);
+		b_0.storeRef(src.raw.asCell());
 	};
 }
 
 export function loadContext(slice: Slice) {
-	const sc0 = slice;
-	const _bounced = sc0.loadBit();
-	const _sender = sc0.loadAddress();
-	const _value = sc0.loadIntBig(257);
-	const _raw = sc0.loadRef().asSlice();
+	let sc_0 = slice;
+	let _bounced = sc_0.loadBit();
+	let _sender = sc_0.loadAddress();
+	let _value = sc_0.loadIntBig(257);
+	let _raw = sc_0.loadRef().asSlice();
 	return {
 		$$type: "Context" as const,
 		bounced: _bounced,
@@ -134,38 +134,38 @@ export type SendParameters = {
 
 export function storeSendParameters(src: SendParameters) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeBit(src.bounce);
-		b0.storeAddress(src.to);
-		b0.storeInt(src.value, 257);
-		b0.storeInt(src.mode, 257);
+		let b_0 = builder;
+		b_0.storeBit(src.bounce);
+		b_0.storeAddress(src.to);
+		b_0.storeInt(src.value, 257);
+		b_0.storeInt(src.mode, 257);
 		if (src.body !== null && src.body !== undefined) {
-			b0.storeBit(true).storeRef(src.body);
+			b_0.storeBit(true).storeRef(src.body);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 		if (src.code !== null && src.code !== undefined) {
-			b0.storeBit(true).storeRef(src.code);
+			b_0.storeBit(true).storeRef(src.code);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 		if (src.data !== null && src.data !== undefined) {
-			b0.storeBit(true).storeRef(src.data);
+			b_0.storeBit(true).storeRef(src.data);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 	};
 }
 
 export function loadSendParameters(slice: Slice) {
-	const sc0 = slice;
-	const _bounce = sc0.loadBit();
-	const _to = sc0.loadAddress();
-	const _value = sc0.loadIntBig(257);
-	const _mode = sc0.loadIntBig(257);
-	const _body = sc0.loadBit() ? sc0.loadRef() : null;
-	const _code = sc0.loadBit() ? sc0.loadRef() : null;
-	const _data = sc0.loadBit() ? sc0.loadRef() : null;
+	let sc_0 = slice;
+	let _bounce = sc_0.loadBit();
+	let _to = sc_0.loadAddress();
+	let _value = sc_0.loadIntBig(257);
+	let _mode = sc_0.loadIntBig(257);
+	let _body = sc_0.loadBit() ? sc_0.loadRef() : null;
+	let _code = sc_0.loadBit() ? sc_0.loadRef() : null;
+	let _data = sc_0.loadBit() ? sc_0.loadRef() : null;
 	return {
 		$$type: "SendParameters" as const,
 		bounce: _bounce,
@@ -185,18 +185,18 @@ export type Deploy = {
 
 export function storeDeploy(src: Deploy) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2490013878, 32);
-		b0.storeUint(src.queryId, 64);
+		let b_0 = builder;
+		b_0.storeUint(2490013878, 32);
+		b_0.storeUint(src.queryId, 64);
 	};
 }
 
 export function loadDeploy(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2490013878) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2490013878) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
+	let _queryId = sc_0.loadUintBig(64);
 	return { $$type: "Deploy" as const, queryId: _queryId };
 }
 
@@ -207,18 +207,18 @@ export type DeployOk = {
 
 export function storeDeployOk(src: DeployOk) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2952335191, 32);
-		b0.storeUint(src.queryId, 64);
+		let b_0 = builder;
+		b_0.storeUint(2952335191, 32);
+		b_0.storeUint(src.queryId, 64);
 	};
 }
 
 export function loadDeployOk(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2952335191) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2952335191) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
+	let _queryId = sc_0.loadUintBig(64);
 	return { $$type: "DeployOk" as const, queryId: _queryId };
 }
 
@@ -230,20 +230,20 @@ export type FactoryDeploy = {
 
 export function storeFactoryDeploy(src: FactoryDeploy) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(1829761339, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.cashback);
+		let b_0 = builder;
+		b_0.storeUint(1829761339, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.cashback);
 	};
 }
 
 export function loadFactoryDeploy(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 1829761339) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 1829761339) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _cashback = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _cashback = sc_0.loadAddress();
 	return {
 		$$type: "FactoryDeploy" as const,
 		queryId: _queryId,
@@ -259,20 +259,20 @@ export type ChangeOwner = {
 
 export function storeChangeOwner(src: ChangeOwner) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2174598809, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.newOwner);
+		let b_0 = builder;
+		b_0.storeUint(2174598809, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.newOwner);
 	};
 }
 
 export function loadChangeOwner(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2174598809) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2174598809) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _newOwner = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _newOwner = sc_0.loadAddress();
 	return {
 		$$type: "ChangeOwner" as const,
 		queryId: _queryId,
@@ -288,20 +288,20 @@ export type ChangeOwnerOk = {
 
 export function storeChangeOwnerOk(src: ChangeOwnerOk) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(846932810, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.newOwner);
+		let b_0 = builder;
+		b_0.storeUint(846932810, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.newOwner);
 	};
 }
 
 export function loadChangeOwnerOk(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 846932810) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 846932810) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _newOwner = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _newOwner = sc_0.loadAddress();
 	return {
 		$$type: "ChangeOwnerOk" as const,
 		queryId: _queryId,
@@ -317,16 +317,16 @@ export type Ticket = {
 
 export function storeTicket(src: Ticket) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(src.number, 32);
-		b0.storeAddress(src.owner);
+		let b_0 = builder;
+		b_0.storeUint(src.number, 32);
+		b_0.storeAddress(src.owner);
 	};
 }
 
 export function loadTicket(slice: Slice) {
-	const sc0 = slice;
-	const _number = sc0.loadUintBig(32);
-	const _owner = sc0.loadAddress();
+	let sc_0 = slice;
+	let _number = sc_0.loadUintBig(32);
+	let _owner = sc_0.loadAddress();
 	return { $$type: "Ticket" as const, number: _number, owner: _owner };
 }
 
@@ -344,6 +344,7 @@ function dictValueParserTicket(): DictionaryValue<Ticket> {
 export type CreateLottery = {
 	$$type: "CreateLottery";
 	creator: Address;
+	operator: Address | null;
 	price: bigint;
 	endTime: bigint;
 	discountDivisor: bigint;
@@ -351,30 +352,33 @@ export type CreateLottery = {
 
 export function storeCreateLottery(src: CreateLottery) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(1817793233, 32);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.price, 257);
-		b0.storeInt(src.endTime, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.discountDivisor, 257);
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeUint(231917926, 32);
+		b_0.storeAddress(src.creator);
+		b_0.storeAddress(src.operator);
+		b_0.storeInt(src.price, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.endTime, 257);
+		b_1.storeInt(src.discountDivisor, 257);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadCreateLottery(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 1817793233) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 231917926) {
+		throw Error("Invalid prefix");
 	}
-	const _creator = sc0.loadAddress();
-	const _price = sc0.loadIntBig(257);
-	const _endTime = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _discountDivisor = sc1.loadIntBig(257);
+	let _creator = sc_0.loadAddress();
+	let _operator = sc_0.loadMaybeAddress();
+	let _price = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _endTime = sc_1.loadIntBig(257);
+	let _discountDivisor = sc_1.loadIntBig(257);
 	return {
 		$$type: "CreateLottery" as const,
 		creator: _creator,
+		operator: _operator,
 		price: _price,
 		endTime: _endTime,
 		discountDivisor: _discountDivisor,
@@ -391,32 +395,32 @@ export type BuyTicket = {
 
 export function storeBuyTicket(src: BuyTicket) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(3310573309, 32);
-		b0.storeAddress(src.recipient);
-		b0.storeUint(src.amount, 32);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeUint(3310573309, 32);
+		b_0.storeAddress(src.recipient);
+		b_0.storeUint(src.amount, 32);
+		b_0.storeDict(
 			src.ticketNumbers,
 			Dictionary.Keys.Uint(32),
-			Dictionary.Values.Uint(32),
+			Dictionary.Values.Uint(32)
 		);
-		b0.storeAddress(src.refWallet);
+		b_0.storeAddress(src.refWallet);
 	};
 }
 
 export function loadBuyTicket(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 3310573309) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 3310573309) {
+		throw Error("Invalid prefix");
 	}
-	const _recipient = sc0.loadAddress();
-	const _amount = sc0.loadUintBig(32);
-	const _ticketNumbers = Dictionary.load(
+	let _recipient = sc_0.loadAddress();
+	let _amount = sc_0.loadUintBig(32);
+	let _ticketNumbers = Dictionary.load(
 		Dictionary.Keys.Uint(32),
 		Dictionary.Values.Uint(32),
-		sc0,
+		sc_0
 	);
-	const _refWallet = sc0.loadMaybeAddress();
+	let _refWallet = sc_0.loadMaybeAddress();
 	return {
 		$$type: "BuyTicket" as const,
 		recipient: _recipient,
@@ -434,28 +438,28 @@ export type ClaimTickets = {
 
 export function storeClaimTickets(src: ClaimTickets) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2609204369, 32);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeUint(2609204369, 32);
+		b_0.storeDict(
 			src.ticketIds,
 			Dictionary.Keys.Uint(32),
-			Dictionary.Values.Uint(32),
+			Dictionary.Values.Uint(32)
 		);
-		b0.storeUint(src.ticketLength, 32);
+		b_0.storeUint(src.ticketLength, 32);
 	};
 }
 
 export function loadClaimTickets(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2609204369) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2609204369) {
+		throw Error("Invalid prefix");
 	}
-	const _ticketIds = Dictionary.load(
+	let _ticketIds = Dictionary.load(
 		Dictionary.Keys.Uint(32),
 		Dictionary.Values.Uint(32),
-		sc0,
+		sc_0
 	);
-	const _ticketLength = sc0.loadUintBig(32);
+	let _ticketLength = sc_0.loadUintBig(32);
 	return {
 		$$type: "ClaimTickets" as const,
 		ticketIds: _ticketIds,
@@ -476,32 +480,32 @@ export type LotteryInfo = {
 
 export function storeLotteryInfo(src: LotteryInfo) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.seqno, 257);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.ticketCnt, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.endTime, 257);
-		b1.storeInt(src.price, 257);
-		b1.storeInt(src.status, 257);
-		const b2 = new Builder();
-		b2.storeInt(src.amountCollected, 257);
-		b1.storeRef(b2.endCell());
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeInt(src.seqno, 257);
+		b_0.storeAddress(src.creator);
+		b_0.storeInt(src.ticketCnt, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.endTime, 257);
+		b_1.storeInt(src.price, 257);
+		b_1.storeInt(src.status, 257);
+		let b_2 = new Builder();
+		b_2.storeInt(src.amountCollected, 257);
+		b_1.storeRef(b_2.endCell());
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLotteryInfo(slice: Slice) {
-	const sc0 = slice;
-	const _seqno = sc0.loadIntBig(257);
-	const _creator = sc0.loadAddress();
-	const _ticketCnt = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _endTime = sc1.loadIntBig(257);
-	const _price = sc1.loadIntBig(257);
-	const _status = sc1.loadIntBig(257);
-	const sc2 = sc1.loadRef().beginParse();
-	const _amountCollected = sc2.loadIntBig(257);
+	let sc_0 = slice;
+	let _seqno = sc_0.loadIntBig(257);
+	let _creator = sc_0.loadAddress();
+	let _ticketCnt = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _endTime = sc_1.loadIntBig(257);
+	let _price = sc_1.loadIntBig(257);
+	let _status = sc_1.loadIntBig(257);
+	let sc_2 = sc_1.loadRef().beginParse();
+	let _amountCollected = sc_2.loadIntBig(257);
 	return {
 		$$type: "LotteryInfo" as const,
 		seqno: _seqno,
@@ -521,18 +525,18 @@ export type Withdraw = {
 
 export function storeWithdraw(src: Withdraw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(922360000, 32);
-		b0.storeAddress(src.target);
+		let b_0 = builder;
+		b_0.storeUint(922360000, 32);
+		b_0.storeAddress(src.target);
 	};
 }
 
 export function loadWithdraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 922360000) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 922360000) {
+		throw Error("Invalid prefix");
 	}
-	const _target = sc0.loadAddress();
+	let _target = sc_0.loadAddress();
 	return { $$type: "Withdraw" as const, target: _target };
 }
 
@@ -540,6 +544,7 @@ export type Lottery$Data = {
 	$$type: "Lottery$Data";
 	factory: Address;
 	creator: Address;
+	operator: Address;
 	seqno: bigint;
 	ticketCnt: bigint;
 	endTime: bigint;
@@ -559,91 +564,94 @@ export type Lottery$Data = {
 
 export function storeLottery$Data(src: Lottery$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.factory);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.seqno, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.ticketCnt, 257);
-		b1.storeUint(src.endTime, 256);
-		b1.storeUint(src.price, 256);
-		b1.storeUint(src.status, 16);
-		const b2 = new Builder();
-		b2.storeInt(src.discountDivisor, 257);
-		b2.storeDict(
+		let b_0 = builder;
+		b_0.storeAddress(src.factory);
+		b_0.storeAddress(src.creator);
+		b_0.storeAddress(src.operator);
+		let b_1 = new Builder();
+		b_1.storeInt(src.seqno, 257);
+		b_1.storeInt(src.ticketCnt, 257);
+		b_1.storeUint(src.endTime, 256);
+		let b_2 = new Builder();
+		b_2.storeUint(src.price, 256);
+		b_2.storeUint(src.status, 16);
+		b_2.storeInt(src.discountDivisor, 257);
+		b_2.storeDict(
 			src.claimed,
 			Dictionary.Keys.Address(),
-			Dictionary.Values.Uint(8),
+			Dictionary.Values.Uint(8)
 		);
-		b2.storeInt(src.feePercent, 257);
-		b2.storeInt(src.refPercent, 257);
-		b2.storeDict(
+		b_2.storeInt(src.feePercent, 257);
+		let b_3 = new Builder();
+		b_3.storeInt(src.refPercent, 257);
+		b_3.storeDict(
 			src.rewardPerBracket,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.BigUint(256),
+			Dictionary.Values.BigUint(256)
 		);
-		b2.storeDict(
+		b_3.storeDict(
 			src.tickets,
 			Dictionary.Keys.BigInt(257),
-			dictValueParserTicket(),
+			dictValueParserTicket()
 		);
-		const b3 = new Builder();
-		b3.storeDict(
+		b_3.storeDict(
 			src.winnerCntPerBracket,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.BigUint(256),
+			Dictionary.Values.BigUint(256)
 		);
-		b3.storeUint(src.amountCollected, 256);
-		b3.storeUint(src.feeAmount, 256);
-		b3.storeUint(src.finalNumber, 32);
-		b2.storeRef(b3.endCell());
-		b1.storeRef(b2.endCell());
-		b0.storeRef(b1.endCell());
+		b_3.storeUint(src.amountCollected, 256);
+		b_3.storeUint(src.feeAmount, 256);
+		b_3.storeUint(src.finalNumber, 32);
+		b_2.storeRef(b_3.endCell());
+		b_1.storeRef(b_2.endCell());
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLottery$Data(slice: Slice) {
-	const sc0 = slice;
-	const _factory = sc0.loadAddress();
-	const _creator = sc0.loadAddress();
-	const _seqno = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _ticketCnt = sc1.loadIntBig(257);
-	const _endTime = sc1.loadUintBig(256);
-	const _price = sc1.loadUintBig(256);
-	const _status = sc1.loadUintBig(16);
-	const sc2 = sc1.loadRef().beginParse();
-	const _discountDivisor = sc2.loadIntBig(257);
-	const _claimed = Dictionary.load(
+	let sc_0 = slice;
+	let _factory = sc_0.loadAddress();
+	let _creator = sc_0.loadAddress();
+	let _operator = sc_0.loadAddress();
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _seqno = sc_1.loadIntBig(257);
+	let _ticketCnt = sc_1.loadIntBig(257);
+	let _endTime = sc_1.loadUintBig(256);
+	let sc_2 = sc_1.loadRef().beginParse();
+	let _price = sc_2.loadUintBig(256);
+	let _status = sc_2.loadUintBig(16);
+	let _discountDivisor = sc_2.loadIntBig(257);
+	let _claimed = Dictionary.load(
 		Dictionary.Keys.Address(),
 		Dictionary.Values.Uint(8),
-		sc2,
+		sc_2
 	);
-	const _feePercent = sc2.loadIntBig(257);
-	const _refPercent = sc2.loadIntBig(257);
-	const _rewardPerBracket = Dictionary.load(
+	let _feePercent = sc_2.loadIntBig(257);
+	let sc_3 = sc_2.loadRef().beginParse();
+	let _refPercent = sc_3.loadIntBig(257);
+	let _rewardPerBracket = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.BigUint(256),
-		sc2,
+		sc_3
 	);
-	const _tickets = Dictionary.load(
+	let _tickets = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		dictValueParserTicket(),
-		sc2,
+		sc_3
 	);
-	const sc3 = sc2.loadRef().beginParse();
-	const _winnerCntPerBracket = Dictionary.load(
+	let _winnerCntPerBracket = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.BigUint(256),
-		sc3,
+		sc_3
 	);
-	const _amountCollected = sc3.loadUintBig(256);
-	const _feeAmount = sc3.loadUintBig(256);
-	const _finalNumber = sc3.loadUintBig(32);
+	let _amountCollected = sc_3.loadUintBig(256);
+	let _feeAmount = sc_3.loadUintBig(256);
+	let _finalNumber = sc_3.loadUintBig(32);
 	return {
 		$$type: "Lottery$Data" as const,
 		factory: _factory,
 		creator: _creator,
+		operator: _operator,
 		seqno: _seqno,
 		ticketCnt: _ticketCnt,
 		endTime: _endTime,
@@ -669,18 +677,18 @@ export type CreateWallet = {
 
 export function storeCreateWallet(src: CreateWallet) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(4268690758, 32);
-		b0.storeAddress(src.owner);
+		let b_0 = builder;
+		b_0.storeUint(4268690758, 32);
+		b_0.storeAddress(src.owner);
 	};
 }
 
 export function loadCreateWallet(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 4268690758) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 4268690758) {
+		throw Error("Invalid prefix");
 	}
-	const _owner = sc0.loadAddress();
+	let _owner = sc_0.loadAddress();
 	return { $$type: "CreateWallet" as const, owner: _owner };
 }
 
@@ -691,18 +699,18 @@ export type Move = {
 
 export function storeMove(src: Move) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(3211350992, 32);
-		b0.storeAddress(src.target);
+		let b_0 = builder;
+		b_0.storeUint(3211350992, 32);
+		b_0.storeAddress(src.target);
 	};
 }
 
 export function loadMove(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 3211350992) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 3211350992) {
+		throw Error("Invalid prefix");
 	}
-	const _target = sc0.loadAddress();
+	let _target = sc_0.loadAddress();
 	return { $$type: "Move" as const, target: _target };
 }
 
@@ -716,23 +724,23 @@ export type ReferralWallet$Data = {
 
 export function storeReferralWallet$Data(src: ReferralWallet$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.factory);
-		b0.storeAddress(src.owner);
-		b0.storeInt(src.amount, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.seqno, 257);
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeAddress(src.factory);
+		b_0.storeAddress(src.owner);
+		b_0.storeInt(src.amount, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.seqno, 257);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadReferralWallet$Data(slice: Slice) {
-	const sc0 = slice;
-	const _factory = sc0.loadAddress();
-	const _owner = sc0.loadAddress();
-	const _amount = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _seqno = sc1.loadIntBig(257);
+	let sc_0 = slice;
+	let _factory = sc_0.loadAddress();
+	let _owner = sc_0.loadAddress();
+	let _amount = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _seqno = sc_1.loadIntBig(257);
 	return {
 		$$type: "ReferralWallet$Data" as const,
 		factory: _factory,
@@ -749,18 +757,18 @@ export type Draw = {
 
 export function storeDraw(src: Draw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(746428760, 32);
-		b0.storeInt(src.lotteryId, 257);
+		let b_0 = builder;
+		b_0.storeUint(746428760, 32);
+		b_0.storeInt(src.lotteryId, 257);
 	};
 }
 
 export function loadDraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 746428760) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 746428760) {
+		throw Error("Invalid prefix");
 	}
-	const _lotteryId = sc0.loadIntBig(257);
+	let _lotteryId = sc_0.loadIntBig(257);
 	return { $$type: "Draw" as const, lotteryId: _lotteryId };
 }
 
@@ -771,24 +779,80 @@ export type EmergencyWithdraw = {
 
 export function storeEmergencyWithdraw(src: EmergencyWithdraw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(807739057, 32);
-		b0.storeInt(src.lotteryId, 257);
+		let b_0 = builder;
+		b_0.storeUint(807739057, 32);
+		b_0.storeInt(src.lotteryId, 257);
 	};
 }
 
 export function loadEmergencyWithdraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 807739057) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 807739057) {
+		throw Error("Invalid prefix");
 	}
-	const _lotteryId = sc0.loadIntBig(257);
+	let _lotteryId = sc_0.loadIntBig(257);
 	return { $$type: "EmergencyWithdraw" as const, lotteryId: _lotteryId };
+}
+
+export type SetOperator = {
+	$$type: "SetOperator";
+	operator: Address;
+};
+
+export function storeSetOperator(src: SetOperator) {
+	return (builder: Builder) => {
+		let b_0 = builder;
+		b_0.storeUint(1568312693, 32);
+		b_0.storeAddress(src.operator);
+	};
+}
+
+export function loadSetOperator(slice: Slice) {
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 1568312693) {
+		throw Error("Invalid prefix");
+	}
+	let _operator = sc_0.loadAddress();
+	return { $$type: "SetOperator" as const, operator: _operator };
+}
+
+export type Create = {
+	$$type: "Create";
+	price: bigint;
+	endTime: bigint;
+	discountDivisor: bigint;
+};
+
+export function storeCreate(src: Create) {
+	return (builder: Builder) => {
+		let b_0 = builder;
+		b_0.storeUint(506403218, 32);
+		b_0.storeInt(src.price, 257);
+		b_0.storeInt(src.endTime, 257);
+		b_0.storeInt(src.discountDivisor, 257);
+	};
+}
+
+export function loadCreate(slice: Slice) {
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 506403218) {
+		throw Error("Invalid prefix");
+	}
+	let _price = sc_0.loadIntBig(257);
+	let _endTime = sc_0.loadIntBig(257);
+	let _discountDivisor = sc_0.loadIntBig(257);
+	return {
+		$$type: "Create" as const,
+		price: _price,
+		endTime: _endTime,
+		discountDivisor: _discountDivisor,
+	};
 }
 
 export type LotteryFactory$Data = {
 	$$type: "LotteryFactory$Data";
 	owner: Address;
+	operator: Address;
 	lotteryCnt: bigint;
 	referrers: Dictionary<bigint, Address>;
 	referrer_cnt: bigint;
@@ -797,121 +861,123 @@ export type LotteryFactory$Data = {
 
 export function storeLotteryFactory$Data(src: LotteryFactory$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.owner);
-		b0.storeUint(src.lotteryCnt, 256);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeAddress(src.owner);
+		b_0.storeAddress(src.operator);
+		b_0.storeUint(src.lotteryCnt, 256);
+		b_0.storeDict(
 			src.referrers,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.Address(),
+			Dictionary.Values.Address()
 		);
-		b0.storeInt(src.referrer_cnt, 257);
-		const b1 = new Builder();
-		b1.storeUint(src.withdraw_end, 256);
-		b0.storeRef(b1.endCell());
+		let b_1 = new Builder();
+		b_1.storeInt(src.referrer_cnt, 257);
+		b_1.storeUint(src.withdraw_end, 256);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLotteryFactory$Data(slice: Slice) {
-	const sc0 = slice;
-	const _owner = sc0.loadAddress();
-	const _lotteryCnt = sc0.loadUintBig(256);
-	const _referrers = Dictionary.load(
+	let sc_0 = slice;
+	let _owner = sc_0.loadAddress();
+	let _operator = sc_0.loadAddress();
+	let _lotteryCnt = sc_0.loadUintBig(256);
+	let _referrers = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.Address(),
-		sc0,
+		sc_0
 	);
-	const _referrerCnt = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _withdrawEnd = sc1.loadUintBig(256);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _referrer_cnt = sc_1.loadIntBig(257);
+	let _withdraw_end = sc_1.loadUintBig(256);
 	return {
 		$$type: "LotteryFactory$Data" as const,
 		owner: _owner,
+		operator: _operator,
 		lotteryCnt: _lotteryCnt,
 		referrers: _referrers,
-		referrer_cnt: _referrerCnt,
-		withdraw_end: _withdrawEnd,
+		referrer_cnt: _referrer_cnt,
+		withdraw_end: _withdraw_end,
 	};
 }
 
-type LotteryFactoryInitArgs = {
+type LotteryFactory_init_args = {
 	$$type: "LotteryFactory_init_args";
 };
 
-function initLotteryFactoryInitArgs(_src: LotteryFactoryInitArgs) {
-	return (_builder: Builder) => {};
+function initLotteryFactory_init_args(src: LotteryFactory_init_args) {
+	return (builder: Builder) => {};
 }
 
-async function lotteryFactoryInit() {
+async function LotteryFactory_init() {
 	const __code = Cell.fromBase64(
-		"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",
+		"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"
 	);
 	const __system = Cell.fromBase64(
-		"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",
+		"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AI1QAYAQ9A9vofLghwGCAI1QIgKAEPQXyAHI9ADJAcxwAcoAQANZINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WgQEBzwDJAQW3ENA/ART/APSkE/S88sgLQAIBYkFjA87QAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zwRERETEREREBESERAPEREPDhEQDlUd2zzy4ILI+EMBzH8BygAREhERERBV4Ns8ye1UekJhBHjtou37AZIwf+BwIddJwh+VMCDXCx/eIIIQDdLJZrrjAiCCEMVTVv264wIgghCbhUyRuuMCIIIQNvoYwLpDRU9SAe4w0x8BghAN0slmuvLggfpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgBINcLAcMAjh/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIlHLXIW3iAYEBAdcA1AHQgQEB1wCBAQHXADAQJRAkECNsFUQAejU9Pj5XEFcQggDZN/hCVhLHBfL0CyBu8tCAgggPQkCCCB6EgPhEbpf4JfgVf/hk3iGh+BGgDxEQDx8ZHH8BzjDTHwGCEMVTVv268uCB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAHTH/QEINcLAcMAjh/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIlHLXIW3iFEMwbBTbPH9GAvSCAMcaI8IA8vSCAL+GI8Ef8vSCAJM6+CNWErny9IEVsy/AAPL0ERERFRERERARFBEQDxETDw4REg4NERUNDBEUDAsREwsKERIKCREVCQgRFAgHERMHBhESBgURFQUEERQEAxETAwIREgIBERUBERRWEts8gR6R+EFvJH9HA8QTXwMivvL0UTOgcJQgVhW5iugwVxNXE1cUVhJus48gERIgbvLQgH8REyWogScQqQRyiBA0AxEVAxA0bW3bPDCTMFcR4g0REQ0MERAMEL8QrhCdEIwQexBqEFkQSBA3RhRQU0hOXwLcgCAgVhlUIjNBM/QOb6GUAdcBMJJbbeIgbvLQgBERERQREREQERMREA8REg8OERQODRETDQwREgwLERQLChETCgkREgkIERQIBxETBwYREgYFERQFBBETBAMREgMBERMBERJWEts8VhaB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uvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WgQEBzwDJABgAAAAAYWRkRnVuZHMByshxAcoBUAcBygBwAcoCUAUg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxZQA/oCcAHKaCNus5F/kyRus+KXMzMBcAHKAOMNIW6znH8BygABIG7y0IABzJUxcAHKAOLJAfsIYACYfwHKAMhwAcoAcAHKACRus51/AcoABCBu8tCAUATMljQDcAHKAOIkbrOdfwHKAAQgbvLQgFAEzJY0A3ABygDicAHKAAJ/AcoAAslYzAH2ARESARERINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WUA8g10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxZQDSDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFgvIgQEBzwAagQEBzwAYy/8GyMv/FcsPYgBeE4EBAc8A9ACBAQHPAAHIgQEBzwAT9AAT9AAU9AAUy/8Vy/8Tyx/JWMzJAczJAcwCASBkbgIBIGVnAhW5YK2zzbPGznbEeHpmABAuVhFUf+1T9wI9ueSts8EREREhERERAREREQDxEQD1UO2zxXEF8PbCGHpoAartou37IYEBAVRHE1n0DW+hkjBt3yBukjBtjifQ0x/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIEmwSbwLiIG7y0IBvIjB1kyDC/4roXwNwaQL4ERERFBERERARExEQDxESDw4RFA4NERMNDBESDAsRFAsKERMKCRESCQgRFAgHERMHBhESBgURFAUEERMEAxESAwIRFAIBERMBERJWEts8elYUpCDC//KFcQGSIajkMVYWAakIoBERERIREREQERIREA8REg8OERIODRESDWtqA/wMERIMCxESCwoREgoJERIJERIIBwZVQFYT2zx6VhWkIML/8oVxAZIhqOQxVhYBqQigARETAbqOHiKBAQFWFIMHQTP0DG+hlAHXATCSW23iIG7y0IDDAJFw4uMCERKlERARFBEQDxETDw4REg4NERENDBEQDBC/EK4QnRCMEHtrbG0AWnEhwAGTMIAL3iHAApMwgG/eIcADlDCBBFfeIcAElDCBK2feAcAFlTCCAbIH3gCKVxNXE4EBASMCERKDB0Ez9AxvoZQB1wEwkltt4iBu8tCADhESDg0REQ0MERAMEL8QrhCdEIwQexBqEFkQSBA3RlBBMNsxABgQahBZEEgQN0ZQRDACASBvdwIBIHB1AgEgcXMCGbD8ts82zxXEF8PbCGB6cgACJAJ1si6INdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiNs8EREREhERERAREREQDxEQD1UO2zxXEF8PbCGB6dAA0gQELKgJ4QTP0Cm+hlAHXATCSW23ibpF/4HACGbTm22ebZ4riC+HthDB6dgAOKsMCkXDgIAIBSHh5ABGwr7tRNDSAAGACPbJGNs8EREREhERERAREREQDxEQD1UO2zxXEF8PbCGB6fwKm7UTQ1AH4Y9IAAY6Q2zxXEhEQEREREA8REA9VDuD4KNcLCoMJuvLgifpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgBgQEB1wBZAtEB2zx7fQH2+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAH6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIAfpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IgB1AHQgQEB1wCBAQHXANP/1DDQ0//TD4EBAdcAfABQ9ASBAQHXANQw0IEBAdcA9AT0BPQE0//T/9MfMA8REg8PEREPDxEQDwHQjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEjQhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEcFRwACBtgQDIgQcIbW1tVHZmIJMgwQaK6DAPERAPEO9+ADgEgQEBJXCDByFulVtZ9FowmMgBzwFBM/RC4gSkABZTwKgrpFihqCqpBJ/W59o="
 	);
-	const builder = beginCell();
+	let builder = beginCell();
 	builder.storeRef(__system);
 	builder.storeUint(0, 1);
-	initLotteryFactoryInitArgs({ $$type: "LotteryFactory_init_args" })(builder);
+	initLotteryFactory_init_args({ $$type: "LotteryFactory_init_args" })(builder);
 	const __data = builder.endCell();
 	return { code: __code, data: __data };
 }
 
-const lotteryFactoryErrors: { [key: number]: { message: string } } = {
-	2: { message: "Stack underflow" },
-	3: { message: "Stack overflow" },
-	4: { message: "Integer overflow" },
-	5: { message: "Integer out of expected range" },
-	6: { message: "Invalid opcode" },
-	7: { message: "Type check error" },
-	8: { message: "Cell overflow" },
-	9: { message: "Cell underflow" },
-	10: { message: "Dictionary error" },
+const LotteryFactory_errors: { [key: number]: { message: string } } = {
+	2: { message: `Stack underflow` },
+	3: { message: `Stack overflow` },
+	4: { message: `Integer overflow` },
+	5: { message: `Integer out of expected range` },
+	6: { message: `Invalid opcode` },
+	7: { message: `Type check error` },
+	8: { message: `Cell overflow` },
+	9: { message: `Cell underflow` },
+	10: { message: `Dictionary error` },
 	11: { message: `'Unknown' error` },
-	12: { message: "Fatal error" },
-	13: { message: "Out of gas error" },
-	14: { message: "Virtualization error" },
-	32: { message: "Action list is invalid" },
-	33: { message: "Action list is too long" },
-	34: { message: "Action is invalid or not supported" },
-	35: { message: "Invalid source address in outbound message" },
-	36: { message: "Invalid destination address in outbound message" },
-	37: { message: "Not enough TON" },
-	38: { message: "Not enough extra-currencies" },
-	39: { message: "Outbound message does not fit into a cell after rewriting" },
-	40: { message: "Cannot process a message" },
-	41: { message: "Library reference is null" },
-	42: { message: "Library change action error" },
+	12: { message: `Fatal error` },
+	13: { message: `Out of gas error` },
+	14: { message: `Virtualization error` },
+	32: { message: `Action list is invalid` },
+	33: { message: `Action list is too long` },
+	34: { message: `Action is invalid or not supported` },
+	35: { message: `Invalid source address in outbound message` },
+	36: { message: `Invalid destination address in outbound message` },
+	37: { message: `Not enough TON` },
+	38: { message: `Not enough extra-currencies` },
+	39: { message: `Outbound message does not fit into a cell after rewriting` },
+	40: { message: `Cannot process a message` },
+	41: { message: `Library reference is null` },
+	42: { message: `Library change action error` },
 	43: {
-		message:
-			"Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree",
+		message: `Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree`,
 	},
-	50: { message: "Account state size exceeded limits" },
-	128: { message: "Null reference exception" },
-	129: { message: "Invalid serialization prefix" },
-	130: { message: "Invalid incoming message" },
-	131: { message: "Constraints error" },
-	132: { message: "Access denied" },
-	133: { message: "Contract stopped" },
-	134: { message: "Invalid argument" },
-	135: { message: "Code of a contract was not found" },
-	136: { message: "Invalid address" },
-	137: { message: "Masterchain support is not enabled for this contract" },
-	5555: { message: "Lottery is not active" },
-	7825: { message: "Not enough Ton" },
-	24518: { message: "Lottery not close" },
-	37690: { message: "Lottery is over" },
-	39647: { message: "Access is denied" },
-	42504: { message: "Already claimed" },
-	49030: { message: "Too many tickets" },
-	49671: { message: "Lottery not claimable" },
-	50970: { message: "No ticket specified" },
-	51322: { message: "You are not creator" },
-	54634: { message: "You are not owner" },
-	55607: { message: "You are not factory" },
+	50: { message: `Account state size exceeded limits` },
+	128: { message: `Null reference exception` },
+	129: { message: `Invalid serialization prefix` },
+	130: { message: `Invalid incoming message` },
+	131: { message: `Constraints error` },
+	132: { message: `Access denied` },
+	133: { message: `Contract stopped` },
+	134: { message: `Invalid argument` },
+	135: { message: `Code of a contract was not found` },
+	136: { message: `Invalid address` },
+	137: { message: `Masterchain support is not enabled for this contract` },
+	5555: { message: `Lottery is not active` },
+	6767: { message: `Sufficient balance` },
+	7825: { message: `Not enough Ton` },
+	24518: { message: `Lottery not close` },
+	37690: { message: `Lottery is over` },
+	39647: { message: `Access is denied` },
+	42504: { message: `Already claimed` },
+	49030: { message: `Too many tickets` },
+	49671: { message: `Lottery not claimable` },
+	50970: { message: `No ticket specified` },
+	54634: { message: `You are not owner` },
+	55607: { message: `You are not factory` },
 };
 
-const lotteryFactoryTypes: ABIType[] = [
+const LotteryFactory_types: ABIType[] = [
 	{
 		name: "StateInit",
 		header: null,
@@ -1070,11 +1136,15 @@ const lotteryFactoryTypes: ABIType[] = [
 	},
 	{
 		name: "CreateLottery",
-		header: 1817793233,
+		header: 231917926,
 		fields: [
 			{
 				name: "creator",
 				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
+				type: { kind: "simple", type: "address", optional: true },
 			},
 			{
 				name: "price",
@@ -1192,6 +1262,10 @@ const lotteryFactoryTypes: ABIType[] = [
 			},
 			{
 				name: "creator",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
 				type: { kind: "simple", type: "address", optional: false },
 			},
 			{
@@ -1319,11 +1393,43 @@ const lotteryFactoryTypes: ABIType[] = [
 		],
 	},
 	{
+		name: "SetOperator",
+		header: 1568312693,
+		fields: [
+			{
+				name: "operator",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+		],
+	},
+	{
+		name: "Create",
+		header: 506403218,
+		fields: [
+			{
+				name: "price",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+			{
+				name: "endTime",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+			{
+				name: "discountDivisor",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+		],
+	},
+	{
 		name: "LotteryFactory$Data",
 		header: null,
 		fields: [
 			{
 				name: "owner",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
 				type: { kind: "simple", type: "address", optional: false },
 			},
 			{
@@ -1346,7 +1452,7 @@ const lotteryFactoryTypes: ABIType[] = [
 	},
 ];
 
-const lotteryFactoryGetters: ABIGetter[] = [
+const LotteryFactory_getters: ABIGetter[] = [
 	{
 		name: "lotteryCnt",
 		arguments: [],
@@ -1397,8 +1503,9 @@ export const LotteryFactory_getterMapping: { [key: string]: string } = {
 	owner: "getOwner",
 };
 
-const lotteryFactoryReceivers: ABIReceiver[] = [
-	{ receiver: "internal", message: { kind: "typed", type: "CreateLottery" } },
+const LotteryFactory_receivers: ABIReceiver[] = [
+	{ receiver: "internal", message: { kind: "typed", type: "SetOperator" } },
+	{ receiver: "internal", message: { kind: "typed", type: "Create" } },
 	{ receiver: "internal", message: { kind: "typed", type: "Draw" } },
 	{ receiver: "internal", message: { kind: "text", text: "createRefWallet" } },
 	{ receiver: "internal", message: { kind: "text", text: "withdraw_ref" } },
@@ -1411,11 +1518,11 @@ const lotteryFactoryReceivers: ABIReceiver[] = [
 
 export class LotteryFactory implements Contract {
 	static async init() {
-		return await lotteryFactoryInit();
+		return await LotteryFactory_init();
 	}
 
 	static async fromInit() {
-		const init = await lotteryFactoryInit();
+		const init = await LotteryFactory_init();
 		const address = contractAddress(0, init);
 		return new LotteryFactory(address, init);
 	}
@@ -1427,10 +1534,10 @@ export class LotteryFactory implements Contract {
 	readonly address: Address;
 	readonly init?: { code: Cell; data: Cell };
 	readonly abi: ContractABI = {
-		types: lotteryFactoryTypes,
-		getters: lotteryFactoryGetters,
-		receivers: lotteryFactoryReceivers,
-		errors: lotteryFactoryErrors,
+		types: LotteryFactory_types,
+		getters: LotteryFactory_getters,
+		receivers: LotteryFactory_receivers,
+		errors: LotteryFactory_errors,
 	};
 
 	private constructor(address: Address, init?: { code: Cell; data: Cell }) {
@@ -1443,21 +1550,30 @@ export class LotteryFactory implements Contract {
 		via: Sender,
 		args: { value: bigint; bounce?: boolean | null | undefined },
 		message:
-			| CreateLottery
+			| SetOperator
+			| Create
 			| Draw
 			| "createRefWallet"
 			| "withdraw_ref"
 			| EmergencyWithdraw
-			| Deploy,
+			| Deploy
 	) {
 		let body: Cell | null = null;
 		if (
 			message &&
 			typeof message === "object" &&
 			!(message instanceof Slice) &&
-			message.$$type === "CreateLottery"
+			message.$$type === "SetOperator"
 		) {
-			body = beginCell().store(storeCreateLottery(message)).endCell();
+			body = beginCell().store(storeSetOperator(message)).endCell();
+		}
+		if (
+			message &&
+			typeof message === "object" &&
+			!(message instanceof Slice) &&
+			message.$$type === "Create"
+		) {
+			body = beginCell().store(storeCreate(message)).endCell();
 		}
 		if (
 			message &&
@@ -1497,44 +1613,41 @@ export class LotteryFactory implements Contract {
 	}
 
 	async getLotteryCnt(provider: ContractProvider) {
-		const builder = new TupleBuilder();
-		const source = (await provider.get("lotteryCnt", builder.build())).stack;
-		const result = source.readBigNumber();
+		let builder = new TupleBuilder();
+		let source = (await provider.get("lotteryCnt", builder.build())).stack;
+		let result = source.readBigNumber();
 		return result;
 	}
 
 	async getLotteryAddress(provider: ContractProvider, seqno: bigint) {
-		const builder = new TupleBuilder();
+		let builder = new TupleBuilder();
 		builder.writeNumber(seqno);
-		const source = (await provider.get("lotteryAddress", builder.build()))
-			.stack;
-		const result = source.readAddress();
+		let source = (await provider.get("lotteryAddress", builder.build())).stack;
+		let result = source.readAddress();
 		return result;
 	}
 
 	async getReferrerWalletAddress(provider: ContractProvider, user: Address) {
-		const builder = new TupleBuilder();
+		let builder = new TupleBuilder();
 		builder.writeAddress(user);
-		const source = (
-			await provider.get("referrerWalletAddress", builder.build())
-		).stack;
-		const result = source.readAddress();
+		let source = (await provider.get("referrerWalletAddress", builder.build()))
+			.stack;
+		let result = source.readAddress();
 		return result;
 	}
 
 	async getReffererNumber(provider: ContractProvider, user: Address) {
-		const builder = new TupleBuilder();
+		let builder = new TupleBuilder();
 		builder.writeAddress(user);
-		const source = (await provider.get("reffererNumber", builder.build()))
-			.stack;
-		const result = source.readBigNumber();
+		let source = (await provider.get("reffererNumber", builder.build())).stack;
+		let result = source.readBigNumber();
 		return result;
 	}
 
 	async getOwner(provider: ContractProvider) {
-		const builder = new TupleBuilder();
-		const source = (await provider.get("owner", builder.build())).stack;
-		const result = source.readAddress();
+		let builder = new TupleBuilder();
+		let source = (await provider.get("owner", builder.build())).stack;
+		let result = source.readAddress();
 		return result;
 	}
 }

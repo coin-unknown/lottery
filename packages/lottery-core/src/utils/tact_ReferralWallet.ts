@@ -1,20 +1,20 @@
 import {
-	type ABIGetter,
-	type ABIReceiver,
-	type ABIType,
-	type Address,
-	Builder,
 	Cell,
-	type Contract,
-	type ContractABI,
-	type ContractProvider,
-	Dictionary,
-	type DictionaryValue,
-	type Sender,
 	Slice,
-	TupleBuilder,
+	Address,
+	Builder,
 	beginCell,
+	Dictionary,
 	contractAddress,
+	ContractProvider,
+	Sender,
+	Contract,
+	ContractABI,
+	ABIType,
+	ABIGetter,
+	ABIReceiver,
+	TupleBuilder,
+	DictionaryValue,
 } from "@ton/core";
 
 export type StateInit = {
@@ -25,16 +25,16 @@ export type StateInit = {
 
 export function storeStateInit(src: StateInit) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeRef(src.code);
-		b0.storeRef(src.data);
+		let b_0 = builder;
+		b_0.storeRef(src.code);
+		b_0.storeRef(src.data);
 	};
 }
 
 export function loadStateInit(slice: Slice) {
-	const sc0 = slice;
-	const _code = sc0.loadRef();
-	const _data = sc0.loadRef();
+	let sc_0 = slice;
+	let _code = sc_0.loadRef();
+	let _data = sc_0.loadRef();
 	return { $$type: "StateInit" as const, code: _code, data: _data };
 }
 
@@ -46,16 +46,16 @@ export type StdAddress = {
 
 export function storeStdAddress(src: StdAddress) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.workchain, 8);
-		b0.storeUint(src.address, 256);
+		let b_0 = builder;
+		b_0.storeInt(src.workchain, 8);
+		b_0.storeUint(src.address, 256);
 	};
 }
 
 export function loadStdAddress(slice: Slice) {
-	const sc0 = slice;
-	const _workchain = sc0.loadIntBig(8);
-	const _address = sc0.loadUintBig(256);
+	let sc_0 = slice;
+	let _workchain = sc_0.loadIntBig(8);
+	let _address = sc_0.loadUintBig(256);
 	return {
 		$$type: "StdAddress" as const,
 		workchain: _workchain,
@@ -71,16 +71,16 @@ export type VarAddress = {
 
 export function storeVarAddress(src: VarAddress) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.workchain, 32);
-		b0.storeRef(src.address.asCell());
+		let b_0 = builder;
+		b_0.storeInt(src.workchain, 32);
+		b_0.storeRef(src.address.asCell());
 	};
 }
 
 export function loadVarAddress(slice: Slice) {
-	const sc0 = slice;
-	const _workchain = sc0.loadIntBig(32);
-	const _address = sc0.loadRef().asSlice();
+	let sc_0 = slice;
+	let _workchain = sc_0.loadIntBig(32);
+	let _address = sc_0.loadRef().asSlice();
 	return {
 		$$type: "VarAddress" as const,
 		workchain: _workchain,
@@ -98,20 +98,20 @@ export type Context = {
 
 export function storeContext(src: Context) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeBit(src.bounced);
-		b0.storeAddress(src.sender);
-		b0.storeInt(src.value, 257);
-		b0.storeRef(src.raw.asCell());
+		let b_0 = builder;
+		b_0.storeBit(src.bounced);
+		b_0.storeAddress(src.sender);
+		b_0.storeInt(src.value, 257);
+		b_0.storeRef(src.raw.asCell());
 	};
 }
 
 export function loadContext(slice: Slice) {
-	const sc0 = slice;
-	const _bounced = sc0.loadBit();
-	const _sender = sc0.loadAddress();
-	const _value = sc0.loadIntBig(257);
-	const _raw = sc0.loadRef().asSlice();
+	let sc_0 = slice;
+	let _bounced = sc_0.loadBit();
+	let _sender = sc_0.loadAddress();
+	let _value = sc_0.loadIntBig(257);
+	let _raw = sc_0.loadRef().asSlice();
 	return {
 		$$type: "Context" as const,
 		bounced: _bounced,
@@ -134,38 +134,38 @@ export type SendParameters = {
 
 export function storeSendParameters(src: SendParameters) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeBit(src.bounce);
-		b0.storeAddress(src.to);
-		b0.storeInt(src.value, 257);
-		b0.storeInt(src.mode, 257);
+		let b_0 = builder;
+		b_0.storeBit(src.bounce);
+		b_0.storeAddress(src.to);
+		b_0.storeInt(src.value, 257);
+		b_0.storeInt(src.mode, 257);
 		if (src.body !== null && src.body !== undefined) {
-			b0.storeBit(true).storeRef(src.body);
+			b_0.storeBit(true).storeRef(src.body);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 		if (src.code !== null && src.code !== undefined) {
-			b0.storeBit(true).storeRef(src.code);
+			b_0.storeBit(true).storeRef(src.code);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 		if (src.data !== null && src.data !== undefined) {
-			b0.storeBit(true).storeRef(src.data);
+			b_0.storeBit(true).storeRef(src.data);
 		} else {
-			b0.storeBit(false);
+			b_0.storeBit(false);
 		}
 	};
 }
 
 export function loadSendParameters(slice: Slice) {
-	const sc0 = slice;
-	const _bounce = sc0.loadBit();
-	const _to = sc0.loadAddress();
-	const _value = sc0.loadIntBig(257);
-	const _mode = sc0.loadIntBig(257);
-	const _body = sc0.loadBit() ? sc0.loadRef() : null;
-	const _code = sc0.loadBit() ? sc0.loadRef() : null;
-	const _data = sc0.loadBit() ? sc0.loadRef() : null;
+	let sc_0 = slice;
+	let _bounce = sc_0.loadBit();
+	let _to = sc_0.loadAddress();
+	let _value = sc_0.loadIntBig(257);
+	let _mode = sc_0.loadIntBig(257);
+	let _body = sc_0.loadBit() ? sc_0.loadRef() : null;
+	let _code = sc_0.loadBit() ? sc_0.loadRef() : null;
+	let _data = sc_0.loadBit() ? sc_0.loadRef() : null;
 	return {
 		$$type: "SendParameters" as const,
 		bounce: _bounce,
@@ -185,18 +185,18 @@ export type Deploy = {
 
 export function storeDeploy(src: Deploy) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2490013878, 32);
-		b0.storeUint(src.queryId, 64);
+		let b_0 = builder;
+		b_0.storeUint(2490013878, 32);
+		b_0.storeUint(src.queryId, 64);
 	};
 }
 
 export function loadDeploy(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2490013878) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2490013878) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
+	let _queryId = sc_0.loadUintBig(64);
 	return { $$type: "Deploy" as const, queryId: _queryId };
 }
 
@@ -207,18 +207,18 @@ export type DeployOk = {
 
 export function storeDeployOk(src: DeployOk) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2952335191, 32);
-		b0.storeUint(src.queryId, 64);
+		let b_0 = builder;
+		b_0.storeUint(2952335191, 32);
+		b_0.storeUint(src.queryId, 64);
 	};
 }
 
 export function loadDeployOk(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2952335191) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2952335191) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
+	let _queryId = sc_0.loadUintBig(64);
 	return { $$type: "DeployOk" as const, queryId: _queryId };
 }
 
@@ -230,20 +230,20 @@ export type FactoryDeploy = {
 
 export function storeFactoryDeploy(src: FactoryDeploy) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(1829761339, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.cashback);
+		let b_0 = builder;
+		b_0.storeUint(1829761339, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.cashback);
 	};
 }
 
 export function loadFactoryDeploy(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 1829761339) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 1829761339) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _cashback = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _cashback = sc_0.loadAddress();
 	return {
 		$$type: "FactoryDeploy" as const,
 		queryId: _queryId,
@@ -259,20 +259,20 @@ export type ChangeOwner = {
 
 export function storeChangeOwner(src: ChangeOwner) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2174598809, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.newOwner);
+		let b_0 = builder;
+		b_0.storeUint(2174598809, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.newOwner);
 	};
 }
 
 export function loadChangeOwner(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2174598809) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2174598809) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _newOwner = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _newOwner = sc_0.loadAddress();
 	return {
 		$$type: "ChangeOwner" as const,
 		queryId: _queryId,
@@ -288,20 +288,20 @@ export type ChangeOwnerOk = {
 
 export function storeChangeOwnerOk(src: ChangeOwnerOk) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(846932810, 32);
-		b0.storeUint(src.queryId, 64);
-		b0.storeAddress(src.newOwner);
+		let b_0 = builder;
+		b_0.storeUint(846932810, 32);
+		b_0.storeUint(src.queryId, 64);
+		b_0.storeAddress(src.newOwner);
 	};
 }
 
 export function loadChangeOwnerOk(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 846932810) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 846932810) {
+		throw Error("Invalid prefix");
 	}
-	const _queryId = sc0.loadUintBig(64);
-	const _newOwner = sc0.loadAddress();
+	let _queryId = sc_0.loadUintBig(64);
+	let _newOwner = sc_0.loadAddress();
 	return {
 		$$type: "ChangeOwnerOk" as const,
 		queryId: _queryId,
@@ -317,16 +317,16 @@ export type Ticket = {
 
 export function storeTicket(src: Ticket) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(src.number, 32);
-		b0.storeAddress(src.owner);
+		let b_0 = builder;
+		b_0.storeUint(src.number, 32);
+		b_0.storeAddress(src.owner);
 	};
 }
 
 export function loadTicket(slice: Slice) {
-	const sc0 = slice;
-	const _number = sc0.loadUintBig(32);
-	const _owner = sc0.loadAddress();
+	let sc_0 = slice;
+	let _number = sc_0.loadUintBig(32);
+	let _owner = sc_0.loadAddress();
 	return { $$type: "Ticket" as const, number: _number, owner: _owner };
 }
 
@@ -344,6 +344,7 @@ function dictValueParserTicket(): DictionaryValue<Ticket> {
 export type CreateLottery = {
 	$$type: "CreateLottery";
 	creator: Address;
+	operator: Address | null;
 	price: bigint;
 	endTime: bigint;
 	discountDivisor: bigint;
@@ -351,30 +352,33 @@ export type CreateLottery = {
 
 export function storeCreateLottery(src: CreateLottery) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(1817793233, 32);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.price, 257);
-		b0.storeInt(src.endTime, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.discountDivisor, 257);
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeUint(231917926, 32);
+		b_0.storeAddress(src.creator);
+		b_0.storeAddress(src.operator);
+		b_0.storeInt(src.price, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.endTime, 257);
+		b_1.storeInt(src.discountDivisor, 257);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadCreateLottery(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 1817793233) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 231917926) {
+		throw Error("Invalid prefix");
 	}
-	const _creator = sc0.loadAddress();
-	const _price = sc0.loadIntBig(257);
-	const _endTime = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _discountDivisor = sc1.loadIntBig(257);
+	let _creator = sc_0.loadAddress();
+	let _operator = sc_0.loadMaybeAddress();
+	let _price = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _endTime = sc_1.loadIntBig(257);
+	let _discountDivisor = sc_1.loadIntBig(257);
 	return {
 		$$type: "CreateLottery" as const,
 		creator: _creator,
+		operator: _operator,
 		price: _price,
 		endTime: _endTime,
 		discountDivisor: _discountDivisor,
@@ -391,32 +395,32 @@ export type BuyTicket = {
 
 export function storeBuyTicket(src: BuyTicket) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(3310573309, 32);
-		b0.storeAddress(src.recipient);
-		b0.storeUint(src.amount, 32);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeUint(3310573309, 32);
+		b_0.storeAddress(src.recipient);
+		b_0.storeUint(src.amount, 32);
+		b_0.storeDict(
 			src.ticketNumbers,
 			Dictionary.Keys.Uint(32),
-			Dictionary.Values.Uint(32),
+			Dictionary.Values.Uint(32)
 		);
-		b0.storeAddress(src.refWallet);
+		b_0.storeAddress(src.refWallet);
 	};
 }
 
 export function loadBuyTicket(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 3310573309) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 3310573309) {
+		throw Error("Invalid prefix");
 	}
-	const _recipient = sc0.loadAddress();
-	const _amount = sc0.loadUintBig(32);
-	const _ticketNumbers = Dictionary.load(
+	let _recipient = sc_0.loadAddress();
+	let _amount = sc_0.loadUintBig(32);
+	let _ticketNumbers = Dictionary.load(
 		Dictionary.Keys.Uint(32),
 		Dictionary.Values.Uint(32),
-		sc0,
+		sc_0
 	);
-	const _refWallet = sc0.loadMaybeAddress();
+	let _refWallet = sc_0.loadMaybeAddress();
 	return {
 		$$type: "BuyTicket" as const,
 		recipient: _recipient,
@@ -434,28 +438,28 @@ export type ClaimTickets = {
 
 export function storeClaimTickets(src: ClaimTickets) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(2609204369, 32);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeUint(2609204369, 32);
+		b_0.storeDict(
 			src.ticketIds,
 			Dictionary.Keys.Uint(32),
-			Dictionary.Values.Uint(32),
+			Dictionary.Values.Uint(32)
 		);
-		b0.storeUint(src.ticketLength, 32);
+		b_0.storeUint(src.ticketLength, 32);
 	};
 }
 
 export function loadClaimTickets(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 2609204369) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 2609204369) {
+		throw Error("Invalid prefix");
 	}
-	const _ticketIds = Dictionary.load(
+	let _ticketIds = Dictionary.load(
 		Dictionary.Keys.Uint(32),
 		Dictionary.Values.Uint(32),
-		sc0,
+		sc_0
 	);
-	const _ticketLength = sc0.loadUintBig(32);
+	let _ticketLength = sc_0.loadUintBig(32);
 	return {
 		$$type: "ClaimTickets" as const,
 		ticketIds: _ticketIds,
@@ -476,32 +480,32 @@ export type LotteryInfo = {
 
 export function storeLotteryInfo(src: LotteryInfo) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeInt(src.seqno, 257);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.ticketCnt, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.endTime, 257);
-		b1.storeInt(src.price, 257);
-		b1.storeInt(src.status, 257);
-		const b2 = new Builder();
-		b2.storeInt(src.amountCollected, 257);
-		b1.storeRef(b2.endCell());
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeInt(src.seqno, 257);
+		b_0.storeAddress(src.creator);
+		b_0.storeInt(src.ticketCnt, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.endTime, 257);
+		b_1.storeInt(src.price, 257);
+		b_1.storeInt(src.status, 257);
+		let b_2 = new Builder();
+		b_2.storeInt(src.amountCollected, 257);
+		b_1.storeRef(b_2.endCell());
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLotteryInfo(slice: Slice) {
-	const sc0 = slice;
-	const _seqno = sc0.loadIntBig(257);
-	const _creator = sc0.loadAddress();
-	const _ticketCnt = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _endTime = sc1.loadIntBig(257);
-	const _price = sc1.loadIntBig(257);
-	const _status = sc1.loadIntBig(257);
-	const sc2 = sc1.loadRef().beginParse();
-	const _amountCollected = sc2.loadIntBig(257);
+	let sc_0 = slice;
+	let _seqno = sc_0.loadIntBig(257);
+	let _creator = sc_0.loadAddress();
+	let _ticketCnt = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _endTime = sc_1.loadIntBig(257);
+	let _price = sc_1.loadIntBig(257);
+	let _status = sc_1.loadIntBig(257);
+	let sc_2 = sc_1.loadRef().beginParse();
+	let _amountCollected = sc_2.loadIntBig(257);
 	return {
 		$$type: "LotteryInfo" as const,
 		seqno: _seqno,
@@ -521,18 +525,18 @@ export type Withdraw = {
 
 export function storeWithdraw(src: Withdraw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(922360000, 32);
-		b0.storeAddress(src.target);
+		let b_0 = builder;
+		b_0.storeUint(922360000, 32);
+		b_0.storeAddress(src.target);
 	};
 }
 
 export function loadWithdraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 922360000) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 922360000) {
+		throw Error("Invalid prefix");
 	}
-	const _target = sc0.loadAddress();
+	let _target = sc_0.loadAddress();
 	return { $$type: "Withdraw" as const, target: _target };
 }
 
@@ -540,6 +544,7 @@ export type Lottery$Data = {
 	$$type: "Lottery$Data";
 	factory: Address;
 	creator: Address;
+	operator: Address;
 	seqno: bigint;
 	ticketCnt: bigint;
 	endTime: bigint;
@@ -559,91 +564,94 @@ export type Lottery$Data = {
 
 export function storeLottery$Data(src: Lottery$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.factory);
-		b0.storeAddress(src.creator);
-		b0.storeInt(src.seqno, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.ticketCnt, 257);
-		b1.storeUint(src.endTime, 256);
-		b1.storeUint(src.price, 256);
-		b1.storeUint(src.status, 16);
-		const b2 = new Builder();
-		b2.storeInt(src.discountDivisor, 257);
-		b2.storeDict(
+		let b_0 = builder;
+		b_0.storeAddress(src.factory);
+		b_0.storeAddress(src.creator);
+		b_0.storeAddress(src.operator);
+		let b_1 = new Builder();
+		b_1.storeInt(src.seqno, 257);
+		b_1.storeInt(src.ticketCnt, 257);
+		b_1.storeUint(src.endTime, 256);
+		let b_2 = new Builder();
+		b_2.storeUint(src.price, 256);
+		b_2.storeUint(src.status, 16);
+		b_2.storeInt(src.discountDivisor, 257);
+		b_2.storeDict(
 			src.claimed,
 			Dictionary.Keys.Address(),
-			Dictionary.Values.Uint(8),
+			Dictionary.Values.Uint(8)
 		);
-		b2.storeInt(src.feePercent, 257);
-		b2.storeInt(src.refPercent, 257);
-		b2.storeDict(
+		b_2.storeInt(src.feePercent, 257);
+		let b_3 = new Builder();
+		b_3.storeInt(src.refPercent, 257);
+		b_3.storeDict(
 			src.rewardPerBracket,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.BigUint(256),
+			Dictionary.Values.BigUint(256)
 		);
-		b2.storeDict(
+		b_3.storeDict(
 			src.tickets,
 			Dictionary.Keys.BigInt(257),
-			dictValueParserTicket(),
+			dictValueParserTicket()
 		);
-		const b3 = new Builder();
-		b3.storeDict(
+		b_3.storeDict(
 			src.winnerCntPerBracket,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.BigUint(256),
+			Dictionary.Values.BigUint(256)
 		);
-		b3.storeUint(src.amountCollected, 256);
-		b3.storeUint(src.feeAmount, 256);
-		b3.storeUint(src.finalNumber, 32);
-		b2.storeRef(b3.endCell());
-		b1.storeRef(b2.endCell());
-		b0.storeRef(b1.endCell());
+		b_3.storeUint(src.amountCollected, 256);
+		b_3.storeUint(src.feeAmount, 256);
+		b_3.storeUint(src.finalNumber, 32);
+		b_2.storeRef(b_3.endCell());
+		b_1.storeRef(b_2.endCell());
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLottery$Data(slice: Slice) {
-	const sc0 = slice;
-	const _factory = sc0.loadAddress();
-	const _creator = sc0.loadAddress();
-	const _seqno = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _ticketCnt = sc1.loadIntBig(257);
-	const _endTime = sc1.loadUintBig(256);
-	const _price = sc1.loadUintBig(256);
-	const _status = sc1.loadUintBig(16);
-	const sc2 = sc1.loadRef().beginParse();
-	const _discountDivisor = sc2.loadIntBig(257);
-	const _claimed = Dictionary.load(
+	let sc_0 = slice;
+	let _factory = sc_0.loadAddress();
+	let _creator = sc_0.loadAddress();
+	let _operator = sc_0.loadAddress();
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _seqno = sc_1.loadIntBig(257);
+	let _ticketCnt = sc_1.loadIntBig(257);
+	let _endTime = sc_1.loadUintBig(256);
+	let sc_2 = sc_1.loadRef().beginParse();
+	let _price = sc_2.loadUintBig(256);
+	let _status = sc_2.loadUintBig(16);
+	let _discountDivisor = sc_2.loadIntBig(257);
+	let _claimed = Dictionary.load(
 		Dictionary.Keys.Address(),
 		Dictionary.Values.Uint(8),
-		sc2,
+		sc_2
 	);
-	const _feePercent = sc2.loadIntBig(257);
-	const _refPercent = sc2.loadIntBig(257);
-	const _rewardPerBracket = Dictionary.load(
+	let _feePercent = sc_2.loadIntBig(257);
+	let sc_3 = sc_2.loadRef().beginParse();
+	let _refPercent = sc_3.loadIntBig(257);
+	let _rewardPerBracket = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.BigUint(256),
-		sc2,
+		sc_3
 	);
-	const _tickets = Dictionary.load(
+	let _tickets = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		dictValueParserTicket(),
-		sc2,
+		sc_3
 	);
-	const sc3 = sc2.loadRef().beginParse();
-	const _winnerCntPerBracket = Dictionary.load(
+	let _winnerCntPerBracket = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.BigUint(256),
-		sc3,
+		sc_3
 	);
-	const _amountCollected = sc3.loadUintBig(256);
-	const _feeAmount = sc3.loadUintBig(256);
-	const _finalNumber = sc3.loadUintBig(32);
+	let _amountCollected = sc_3.loadUintBig(256);
+	let _feeAmount = sc_3.loadUintBig(256);
+	let _finalNumber = sc_3.loadUintBig(32);
 	return {
 		$$type: "Lottery$Data" as const,
 		factory: _factory,
 		creator: _creator,
+		operator: _operator,
 		seqno: _seqno,
 		ticketCnt: _ticketCnt,
 		endTime: _endTime,
@@ -669,18 +677,18 @@ export type CreateWallet = {
 
 export function storeCreateWallet(src: CreateWallet) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(4268690758, 32);
-		b0.storeAddress(src.owner);
+		let b_0 = builder;
+		b_0.storeUint(4268690758, 32);
+		b_0.storeAddress(src.owner);
 	};
 }
 
 export function loadCreateWallet(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 4268690758) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 4268690758) {
+		throw Error("Invalid prefix");
 	}
-	const _owner = sc0.loadAddress();
+	let _owner = sc_0.loadAddress();
 	return { $$type: "CreateWallet" as const, owner: _owner };
 }
 
@@ -691,18 +699,18 @@ export type Move = {
 
 export function storeMove(src: Move) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(3211350992, 32);
-		b0.storeAddress(src.target);
+		let b_0 = builder;
+		b_0.storeUint(3211350992, 32);
+		b_0.storeAddress(src.target);
 	};
 }
 
 export function loadMove(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 3211350992) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 3211350992) {
+		throw Error("Invalid prefix");
 	}
-	const _target = sc0.loadAddress();
+	let _target = sc_0.loadAddress();
 	return { $$type: "Move" as const, target: _target };
 }
 
@@ -716,23 +724,23 @@ export type ReferralWallet$Data = {
 
 export function storeReferralWallet$Data(src: ReferralWallet$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.factory);
-		b0.storeAddress(src.owner);
-		b0.storeInt(src.amount, 257);
-		const b1 = new Builder();
-		b1.storeInt(src.seqno, 257);
-		b0.storeRef(b1.endCell());
+		let b_0 = builder;
+		b_0.storeAddress(src.factory);
+		b_0.storeAddress(src.owner);
+		b_0.storeInt(src.amount, 257);
+		let b_1 = new Builder();
+		b_1.storeInt(src.seqno, 257);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadReferralWallet$Data(slice: Slice) {
-	const sc0 = slice;
-	const _factory = sc0.loadAddress();
-	const _owner = sc0.loadAddress();
-	const _amount = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _seqno = sc1.loadIntBig(257);
+	let sc_0 = slice;
+	let _factory = sc_0.loadAddress();
+	let _owner = sc_0.loadAddress();
+	let _amount = sc_0.loadIntBig(257);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _seqno = sc_1.loadIntBig(257);
 	return {
 		$$type: "ReferralWallet$Data" as const,
 		factory: _factory,
@@ -749,18 +757,18 @@ export type Draw = {
 
 export function storeDraw(src: Draw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(746428760, 32);
-		b0.storeInt(src.lotteryId, 257);
+		let b_0 = builder;
+		b_0.storeUint(746428760, 32);
+		b_0.storeInt(src.lotteryId, 257);
 	};
 }
 
 export function loadDraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 746428760) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 746428760) {
+		throw Error("Invalid prefix");
 	}
-	const _lotteryId = sc0.loadIntBig(257);
+	let _lotteryId = sc_0.loadIntBig(257);
 	return { $$type: "Draw" as const, lotteryId: _lotteryId };
 }
 
@@ -771,24 +779,80 @@ export type EmergencyWithdraw = {
 
 export function storeEmergencyWithdraw(src: EmergencyWithdraw) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeUint(807739057, 32);
-		b0.storeInt(src.lotteryId, 257);
+		let b_0 = builder;
+		b_0.storeUint(807739057, 32);
+		b_0.storeInt(src.lotteryId, 257);
 	};
 }
 
 export function loadEmergencyWithdraw(slice: Slice) {
-	const sc0 = slice;
-	if (sc0.loadUint(32) !== 807739057) {
-		throw new Error("Invalid prefix");
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 807739057) {
+		throw Error("Invalid prefix");
 	}
-	const _lotteryId = sc0.loadIntBig(257);
+	let _lotteryId = sc_0.loadIntBig(257);
 	return { $$type: "EmergencyWithdraw" as const, lotteryId: _lotteryId };
+}
+
+export type SetOperator = {
+	$$type: "SetOperator";
+	operator: Address;
+};
+
+export function storeSetOperator(src: SetOperator) {
+	return (builder: Builder) => {
+		let b_0 = builder;
+		b_0.storeUint(1568312693, 32);
+		b_0.storeAddress(src.operator);
+	};
+}
+
+export function loadSetOperator(slice: Slice) {
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 1568312693) {
+		throw Error("Invalid prefix");
+	}
+	let _operator = sc_0.loadAddress();
+	return { $$type: "SetOperator" as const, operator: _operator };
+}
+
+export type Create = {
+	$$type: "Create";
+	price: bigint;
+	endTime: bigint;
+	discountDivisor: bigint;
+};
+
+export function storeCreate(src: Create) {
+	return (builder: Builder) => {
+		let b_0 = builder;
+		b_0.storeUint(506403218, 32);
+		b_0.storeInt(src.price, 257);
+		b_0.storeInt(src.endTime, 257);
+		b_0.storeInt(src.discountDivisor, 257);
+	};
+}
+
+export function loadCreate(slice: Slice) {
+	let sc_0 = slice;
+	if (sc_0.loadUint(32) !== 506403218) {
+		throw Error("Invalid prefix");
+	}
+	let _price = sc_0.loadIntBig(257);
+	let _endTime = sc_0.loadIntBig(257);
+	let _discountDivisor = sc_0.loadIntBig(257);
+	return {
+		$$type: "Create" as const,
+		price: _price,
+		endTime: _endTime,
+		discountDivisor: _discountDivisor,
+	};
 }
 
 export type LotteryFactory$Data = {
 	$$type: "LotteryFactory$Data";
 	owner: Address;
+	operator: Address;
 	lotteryCnt: bigint;
 	referrers: Dictionary<bigint, Address>;
 	referrer_cnt: bigint;
@@ -797,68 +861,71 @@ export type LotteryFactory$Data = {
 
 export function storeLotteryFactory$Data(src: LotteryFactory$Data) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.owner);
-		b0.storeUint(src.lotteryCnt, 256);
-		b0.storeDict(
+		let b_0 = builder;
+		b_0.storeAddress(src.owner);
+		b_0.storeAddress(src.operator);
+		b_0.storeUint(src.lotteryCnt, 256);
+		b_0.storeDict(
 			src.referrers,
 			Dictionary.Keys.BigInt(257),
-			Dictionary.Values.Address(),
+			Dictionary.Values.Address()
 		);
-		b0.storeInt(src.referrer_cnt, 257);
-		const b1 = new Builder();
-		b1.storeUint(src.withdraw_end, 256);
-		b0.storeRef(b1.endCell());
+		let b_1 = new Builder();
+		b_1.storeInt(src.referrer_cnt, 257);
+		b_1.storeUint(src.withdraw_end, 256);
+		b_0.storeRef(b_1.endCell());
 	};
 }
 
 export function loadLotteryFactory$Data(slice: Slice) {
-	const sc0 = slice;
-	const _owner = sc0.loadAddress();
-	const _lotteryCnt = sc0.loadUintBig(256);
-	const _referrers = Dictionary.load(
+	let sc_0 = slice;
+	let _owner = sc_0.loadAddress();
+	let _operator = sc_0.loadAddress();
+	let _lotteryCnt = sc_0.loadUintBig(256);
+	let _referrers = Dictionary.load(
 		Dictionary.Keys.BigInt(257),
 		Dictionary.Values.Address(),
-		sc0,
+		sc_0
 	);
-	const _referrerCnt = sc0.loadIntBig(257);
-	const sc1 = sc0.loadRef().beginParse();
-	const _withdrawEnd = sc1.loadUintBig(256);
+	let sc_1 = sc_0.loadRef().beginParse();
+	let _referrer_cnt = sc_1.loadIntBig(257);
+	let _withdraw_end = sc_1.loadUintBig(256);
 	return {
 		$$type: "LotteryFactory$Data" as const,
 		owner: _owner,
+		operator: _operator,
 		lotteryCnt: _lotteryCnt,
 		referrers: _referrers,
-		referrer_cnt: _referrerCnt,
-		withdraw_end: _withdrawEnd,
+		referrer_cnt: _referrer_cnt,
+		withdraw_end: _withdraw_end,
 	};
 }
 
-type ReferralWalletInitArgs = {
+type ReferralWallet_init_args = {
 	$$type: "ReferralWallet_init_args";
 	factory: Address;
 	seqno: bigint;
 };
 
-function initReferralWalletInitArgs(src: ReferralWalletInitArgs) {
+function initReferralWallet_init_args(src: ReferralWallet_init_args) {
 	return (builder: Builder) => {
-		const b0 = builder;
-		b0.storeAddress(src.factory);
-		b0.storeInt(src.seqno, 257);
+		let b_0 = builder;
+		b_0.storeAddress(src.factory);
+		b_0.storeInt(src.seqno, 257);
 	};
 }
 
-async function referralWalletInit(factory: Address, seqno: bigint) {
+async function ReferralWallet_init(factory: Address, seqno: bigint) {
 	const __code = Cell.fromBase64(
-		"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",
+		"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"
 	);
 	const __system = Cell.fromBase64(
-		"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",
+		"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"
 	);
-	const builder = beginCell();
+	let builder = beginCell();
 	builder.storeRef(__system);
 	builder.storeUint(0, 1);
-	initReferralWalletInitArgs({
+	initReferralWallet_init_args({
 		$$type: "ReferralWallet_init_args",
 		factory,
 		seqno,
@@ -867,61 +934,60 @@ async function referralWalletInit(factory: Address, seqno: bigint) {
 	return { code: __code, data: __data };
 }
 
-const referralWalletErrors: { [key: number]: { message: string } } = {
-	2: { message: "Stack underflow" },
-	3: { message: "Stack overflow" },
-	4: { message: "Integer overflow" },
-	5: { message: "Integer out of expected range" },
-	6: { message: "Invalid opcode" },
-	7: { message: "Type check error" },
-	8: { message: "Cell overflow" },
-	9: { message: "Cell underflow" },
-	10: { message: "Dictionary error" },
+const ReferralWallet_errors: { [key: number]: { message: string } } = {
+	2: { message: `Stack underflow` },
+	3: { message: `Stack overflow` },
+	4: { message: `Integer overflow` },
+	5: { message: `Integer out of expected range` },
+	6: { message: `Invalid opcode` },
+	7: { message: `Type check error` },
+	8: { message: `Cell overflow` },
+	9: { message: `Cell underflow` },
+	10: { message: `Dictionary error` },
 	11: { message: `'Unknown' error` },
-	12: { message: "Fatal error" },
-	13: { message: "Out of gas error" },
-	14: { message: "Virtualization error" },
-	32: { message: "Action list is invalid" },
-	33: { message: "Action list is too long" },
-	34: { message: "Action is invalid or not supported" },
-	35: { message: "Invalid source address in outbound message" },
-	36: { message: "Invalid destination address in outbound message" },
-	37: { message: "Not enough TON" },
-	38: { message: "Not enough extra-currencies" },
-	39: { message: "Outbound message does not fit into a cell after rewriting" },
-	40: { message: "Cannot process a message" },
-	41: { message: "Library reference is null" },
-	42: { message: "Library change action error" },
+	12: { message: `Fatal error` },
+	13: { message: `Out of gas error` },
+	14: { message: `Virtualization error` },
+	32: { message: `Action list is invalid` },
+	33: { message: `Action list is too long` },
+	34: { message: `Action is invalid or not supported` },
+	35: { message: `Invalid source address in outbound message` },
+	36: { message: `Invalid destination address in outbound message` },
+	37: { message: `Not enough TON` },
+	38: { message: `Not enough extra-currencies` },
+	39: { message: `Outbound message does not fit into a cell after rewriting` },
+	40: { message: `Cannot process a message` },
+	41: { message: `Library reference is null` },
+	42: { message: `Library change action error` },
 	43: {
-		message:
-			"Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree",
+		message: `Exceeded maximum number of cells in the library or the maximum depth of the Merkle tree`,
 	},
-	50: { message: "Account state size exceeded limits" },
-	128: { message: "Null reference exception" },
-	129: { message: "Invalid serialization prefix" },
-	130: { message: "Invalid incoming message" },
-	131: { message: "Constraints error" },
-	132: { message: "Access denied" },
-	133: { message: "Contract stopped" },
-	134: { message: "Invalid argument" },
-	135: { message: "Code of a contract was not found" },
-	136: { message: "Invalid address" },
-	137: { message: "Masterchain support is not enabled for this contract" },
-	5555: { message: "Lottery is not active" },
-	7825: { message: "Not enough Ton" },
-	24518: { message: "Lottery not close" },
-	37690: { message: "Lottery is over" },
-	39647: { message: "Access is denied" },
-	42504: { message: "Already claimed" },
-	49030: { message: "Too many tickets" },
-	49671: { message: "Lottery not claimable" },
-	50970: { message: "No ticket specified" },
-	51322: { message: "You are not creator" },
-	54634: { message: "You are not owner" },
-	55607: { message: "You are not factory" },
+	50: { message: `Account state size exceeded limits` },
+	128: { message: `Null reference exception` },
+	129: { message: `Invalid serialization prefix` },
+	130: { message: `Invalid incoming message` },
+	131: { message: `Constraints error` },
+	132: { message: `Access denied` },
+	133: { message: `Contract stopped` },
+	134: { message: `Invalid argument` },
+	135: { message: `Code of a contract was not found` },
+	136: { message: `Invalid address` },
+	137: { message: `Masterchain support is not enabled for this contract` },
+	5555: { message: `Lottery is not active` },
+	6767: { message: `Sufficient balance` },
+	7825: { message: `Not enough Ton` },
+	24518: { message: `Lottery not close` },
+	37690: { message: `Lottery is over` },
+	39647: { message: `Access is denied` },
+	42504: { message: `Already claimed` },
+	49030: { message: `Too many tickets` },
+	49671: { message: `Lottery not claimable` },
+	50970: { message: `No ticket specified` },
+	54634: { message: `You are not owner` },
+	55607: { message: `You are not factory` },
 };
 
-const referralWalletTypes: ABIType[] = [
+const ReferralWallet_types: ABIType[] = [
 	{
 		name: "StateInit",
 		header: null,
@@ -1080,11 +1146,15 @@ const referralWalletTypes: ABIType[] = [
 	},
 	{
 		name: "CreateLottery",
-		header: 1817793233,
+		header: 231917926,
 		fields: [
 			{
 				name: "creator",
 				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
+				type: { kind: "simple", type: "address", optional: true },
 			},
 			{
 				name: "price",
@@ -1202,6 +1272,10 @@ const referralWalletTypes: ABIType[] = [
 			},
 			{
 				name: "creator",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
 				type: { kind: "simple", type: "address", optional: false },
 			},
 			{
@@ -1329,11 +1403,43 @@ const referralWalletTypes: ABIType[] = [
 		],
 	},
 	{
+		name: "SetOperator",
+		header: 1568312693,
+		fields: [
+			{
+				name: "operator",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+		],
+	},
+	{
+		name: "Create",
+		header: 506403218,
+		fields: [
+			{
+				name: "price",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+			{
+				name: "endTime",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+			{
+				name: "discountDivisor",
+				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+		],
+	},
+	{
 		name: "LotteryFactory$Data",
 		header: null,
 		fields: [
 			{
 				name: "owner",
+				type: { kind: "simple", type: "address", optional: false },
+			},
+			{
+				name: "operator",
 				type: { kind: "simple", type: "address", optional: false },
 			},
 			{
@@ -1356,7 +1462,7 @@ const referralWalletTypes: ABIType[] = [
 	},
 ];
 
-const referralWalletGetters: ABIGetter[] = [
+const ReferralWallet_getters: ABIGetter[] = [
 	{
 		name: "balance",
 		arguments: [],
@@ -1368,7 +1474,7 @@ export const ReferralWallet_getterMapping: { [key: string]: string } = {
 	balance: "getBalance",
 };
 
-const referralWalletReceivers: ABIReceiver[] = [
+const ReferralWallet_receivers: ABIReceiver[] = [
 	{ receiver: "internal", message: { kind: "typed", type: "CreateWallet" } },
 	{ receiver: "internal", message: { kind: "text", text: "accept" } },
 	{ receiver: "internal", message: { kind: "text", text: "withdraw" } },
@@ -1377,11 +1483,11 @@ const referralWalletReceivers: ABIReceiver[] = [
 
 export class ReferralWallet implements Contract {
 	static async init(factory: Address, seqno: bigint) {
-		return await referralWalletInit(factory, seqno);
+		return await ReferralWallet_init(factory, seqno);
 	}
 
 	static async fromInit(factory: Address, seqno: bigint) {
-		const init = await referralWalletInit(factory, seqno);
+		const init = await ReferralWallet_init(factory, seqno);
 		const address = contractAddress(0, init);
 		return new ReferralWallet(address, init);
 	}
@@ -1393,10 +1499,10 @@ export class ReferralWallet implements Contract {
 	readonly address: Address;
 	readonly init?: { code: Cell; data: Cell };
 	readonly abi: ContractABI = {
-		types: referralWalletTypes,
-		getters: referralWalletGetters,
-		receivers: referralWalletReceivers,
-		errors: referralWalletErrors,
+		types: ReferralWallet_types,
+		getters: ReferralWallet_getters,
+		receivers: ReferralWallet_receivers,
+		errors: ReferralWallet_errors,
 	};
 
 	private constructor(address: Address, init?: { code: Cell; data: Cell }) {
@@ -1408,7 +1514,7 @@ export class ReferralWallet implements Contract {
 		provider: ContractProvider,
 		via: Sender,
 		args: { value: bigint; bounce?: boolean | null | undefined },
-		message: CreateWallet | "accept" | "withdraw" | Move,
+		message: CreateWallet | "accept" | "withdraw" | Move
 	) {
 		let body: Cell | null = null;
 		if (
@@ -1441,9 +1547,9 @@ export class ReferralWallet implements Contract {
 	}
 
 	async getBalance(provider: ContractProvider) {
-		const builder = new TupleBuilder();
-		const source = (await provider.get("balance", builder.build())).stack;
-		const result = source.readBigNumber();
+		let builder = new TupleBuilder();
+		let source = (await provider.get("balance", builder.build())).stack;
+		let result = source.readBigNumber();
 		return result;
 	}
 }

@@ -1,13 +1,25 @@
-import { type Address, Dictionary, type OpenedContract, address, fromNano, toNano } from '@ton/core';
-import type TonConnect from '@tonconnect/sdk';
-import type { Wallet } from '@tonconnect/sdk';
-import { type IRound, type ITicket, RoundStatus } from './types';
-import { TonConnectProvider, getFactoryInstance, getLotteryInstance, getRefWalletInstance } from './utils/factory';
-import type { Lottery } from './utils/tact_Lottery';
-import type { LotteryFactory } from './utils/tact_LotteryFactory';
-import type { ReferralWallet } from './utils/tact_ReferralWallet';
+import {
+	Address,
+	Dictionary,
+	type OpenedContract,
+	address,
+	fromNano,
+	toNano,
+} from "@ton/core";
+import type TonConnect from "@tonconnect/sdk";
+import type { Wallet } from "@tonconnect/sdk";
+import { type IRound, type ITicket, RoundStatus } from "./types";
+import {
+	TonConnectProvider,
+	getFactoryInstance,
+	getLotteryInstance,
+	getRefWalletInstance,
+} from "./utils/factory";
+import type { Lottery } from "./utils/tact_Lottery";
+import type { LotteryFactory } from "./utils/tact_LotteryFactory";
+import type { ReferralWallet } from "./utils/tact_ReferralWallet";
 
-export * from './types';
+export * from "./types";
 
 let factorySingleton: Promise<OpenedContract<LotteryFactory>>;
 let refWalletSingleton: Promise<OpenedContract<ReferralWallet>>;
@@ -20,11 +32,11 @@ let tonconnectSingleton: TonConnectProvider;
  * @returns
  */
 async function getFactory(): Promise<OpenedContract<LotteryFactory>> {
-  if (!factorySingleton) {
-    factorySingleton = getFactoryInstance();
-  }
+	if (!factorySingleton) {
+		factorySingleton = getFactoryInstance();
+	}
 
-  return factorySingleton;
+	return factorySingleton;
 }
 
 /**
@@ -32,12 +44,14 @@ async function getFactory(): Promise<OpenedContract<LotteryFactory>> {
  * @param address
  * @returns
  */
-async function getRefWallet(address: Address): Promise<OpenedContract<ReferralWallet>> {
-  if (!refWalletSingleton) {
-    refWalletSingleton = getRefWalletInstance(address);
-  }
+async function getRefWallet(
+	address: Address
+): Promise<OpenedContract<ReferralWallet>> {
+	if (!refWalletSingleton) {
+		refWalletSingleton = getRefWalletInstance(address);
+	}
 
-  return refWalletSingleton;
+	return refWalletSingleton;
 }
 
 /**
@@ -46,14 +60,14 @@ async function getRefWallet(address: Address): Promise<OpenedContract<ReferralWa
  * @returns
  */
 async function getLottery(roundIdx: number): Promise<OpenedContract<Lottery>> {
-  if (!lotterySingleton || roundIdx !== lotterySingletonIdx) {
-    const factory = await getFactory();
-    const lotteryAddr = await factory.getLotteryAddress(BigInt(roundIdx));
-    lotterySingletonIdx = roundIdx;
-    lotterySingleton = getLotteryInstance(lotteryAddr);
-  }
+	if (!lotterySingleton || roundIdx !== lotterySingletonIdx) {
+		const factory = await getFactory();
+		const lotteryAddr = await factory.getLotteryAddress(BigInt(roundIdx));
+		lotterySingletonIdx = roundIdx;
+		lotterySingleton = getLotteryInstance(lotteryAddr);
+	}
 
-  return lotterySingleton;
+	return lotterySingleton;
 }
 
 /**
@@ -62,11 +76,11 @@ async function getLottery(roundIdx: number): Promise<OpenedContract<Lottery>> {
  * @returns
  */
 function getSender(tonconnect: TonConnect): TonConnectProvider {
-  if (!tonconnectSingleton) {
-    tonconnectSingleton = new TonConnectProvider(tonconnect);
-  }
+	if (!tonconnectSingleton) {
+		tonconnectSingleton = new TonConnectProvider(tonconnect);
+	}
 
-  return tonconnectSingleton;
+	return tonconnectSingleton;
 }
 
 /**
@@ -75,13 +89,13 @@ function getSender(tonconnect: TonConnect): TonConnectProvider {
  * @returns
  */
 function getReadableTicketNumber(number: number | bigint) {
-  const numbers = number.toString().split('').reverse();
+	const numbers = number.toString().split("").reverse();
 
-  if (numbers.length === 7) {
-    numbers.pop();
-  }
+	if (numbers.length === 7) {
+		numbers.pop();
+	}
 
-  return numbers.join('').padStart(6, '0');
+	return numbers.join("").padStart(6, "0");
 }
 
 /**
@@ -91,17 +105,17 @@ function getReadableTicketNumber(number: number | bigint) {
  * @returns
  */
 function getTicketMatch(ticket: string, draw: string) {
-  let matched = 0;
+	let matched = 0;
 
-  for (let i = 0; i < 6; i++) {
-    if (ticket[i] === draw[i]) {
-      matched++;
-    } else {
-      break;
-    }
-  }
+	for (let i = 0; i < 6; i++) {
+		if (ticket[i] === draw[i]) {
+			matched++;
+		} else {
+			break;
+		}
+	}
 
-  return matched;
+	return matched;
 }
 
 /**
@@ -109,21 +123,21 @@ function getTicketMatch(ticket: string, draw: string) {
  * @returns
  */
 export const getLastRoundId = async () => {
-  const factory = await getFactory();
-  return Number(await factory.getLotteryCnt()) - 1;
+	const factory = await getFactory();
+	return Number(await factory.getLotteryCnt()) - 1;
 };
 
 function getRoundStatus(status: bigint): RoundStatus {
-  switch (status) {
-    case 0n:
-      return RoundStatus.Open;
-    case 1n:
-      return RoundStatus.Closed;
-    case 2n:
-      return RoundStatus.Drawn;
-    default:
-      throw new Error(`Unknown status: ${status}`);
-  }
+	switch (status) {
+		case 0n:
+			return RoundStatus.Open;
+		case 1n:
+			return RoundStatus.Closed;
+		case 2n:
+			return RoundStatus.Drawn;
+		default:
+			throw new Error(`Unknown status: ${status}`);
+	}
 }
 
 /**
@@ -131,82 +145,98 @@ function getRoundStatus(status: bigint): RoundStatus {
  * @param roundIdx round number
  * @returns
  */
-export const getRound = async (wallet: Wallet, roundIdx?: number): Promise<IRound> => {
-  if (roundIdx === undefined) {
-    roundIdx = await getLastRoundId();
-  }
+export const getRound = async (
+	wallet: Wallet,
+	roundIdx?: number
+): Promise<IRound> => {
+	if (roundIdx === undefined) {
+		roundIdx = await getLastRoundId();
+	}
 
-  const response: IRound = {
-    id: roundIdx,
-    ticketsSold: 0,
-    drawTime: 0,
-    price: 0,
-    status: RoundStatus.Open,
-    claimable: false,
-    roundPot: '0',
-    roundDraw: '',
-    userData: {
-      refReward: 0,
-      refWallet: null,
-      tickets: [],
-    },
-  };
+	const response: IRound = {
+		id: roundIdx,
+		ticketsSold: 0,
+		drawTime: 0,
+		price: 0,
+		status: RoundStatus.Open,
+		claimable: false,
+		roundPot: "0",
+		roundDraw: "",
+		userData: {
+			refReward: 0,
+			refWallet: null,
+			tickets: [],
+		},
+	};
 
-  const [factory, lottery] = await Promise.all([getFactory(), getLottery(roundIdx)]);
-  const walletAddress = address(wallet.account.address);
-  const [refNum, tickets, lotteryInfo, roundDraw, isClaimable] = await Promise.all([
-    factory.getReffererNumber(walletAddress).catch(() => 0),
-    lottery.getAllTickets(),
-    lottery.getInfo(),
-    lottery.getWinningNumber(),
-    lottery.getIsClaimable(walletAddress),
-  ]);
+	const [factory, lottery] = await Promise.all([
+		getFactory(),
+		getLottery(roundIdx),
+	]);
+	const walletAddress = address(wallet.account.address);
+	const [refNum, tickets, lotteryInfo, roundDraw, isClaimable] =
+		await Promise.all([
+			factory.getReffererNumber(walletAddress).catch(() => 0),
+			lottery.getAllTickets(),
+			lottery.getInfo(),
+			lottery.getWinningNumber(),
+			lottery.getIsClaimable(walletAddress),
+		]);
 
-  if (Number(refNum) > 0) {
-    // TODO: test it
-    const refAddress = await factory.getReferrerWalletAddress(walletAddress);
-    const ref = await getRefWallet(refAddress);
+	if (Number(refNum) > 0) {
+		// TODO: test it
+		const refAddress = await factory.getReferrerWalletAddress(walletAddress);
+		const ref = await getRefWallet(refAddress);
 
-    response.userData.refReward = Number(fromNano(await ref.getBalance()));
-    response.userData.refWallet = ref.address;
-  }
+		response.userData.refReward = Number(fromNano(await ref.getBalance()));
+		response.userData.refWallet = ref.address;
+	}
 
-  // Reverse back number
-  let roundDrawString = '';
+	// Reverse back number
+	let roundDrawString = "";
 
-  if (roundDraw > 0) {
-    roundDrawString = getReadableTicketNumber(roundDraw);
-  }
+	if (roundDraw > 0) {
+		roundDrawString = getReadableTicketNumber(roundDraw);
+	}
 
-  for (let i = 0; i < tickets.size; i++) {
-    const ticket = tickets.get(BigInt(i));
-    const ticketString = getReadableTicketNumber(ticket?.number ?? 0);
-    const isMyTicket = ticket?.owner.equals(walletAddress);
+	for (let i = 0; i < tickets.size; i++) {
+		const ticket = tickets.get(BigInt(i));
+		const ticketString = getReadableTicketNumber(ticket?.number ?? 0);
+		const isMyTicket = ticket?.owner.equals(walletAddress);
 
-    if (isMyTicket) {
-      const matched = roundDrawString ? getTicketMatch(ticketString, roundDrawString) : 0;
-      const ticketData: ITicket = {
-        id: i,
-        numbers: ticketString,
-        prizeAmount: matched > 0 ? Number(fromNano(await lottery.getCalculateRewardsForTicketId(BigInt(i)))) : 0,
-        matched,
-      };
+		if (isMyTicket) {
+			const matched = roundDrawString
+				? getTicketMatch(ticketString, roundDrawString)
+				: 0;
+			const ticketData: ITicket = {
+				id: i,
+				numbers: ticketString,
+				prizeAmount:
+					matched > 0
+						? Number(
+								fromNano(
+									await lottery.getCalculateRewardsForTicketId(BigInt(i))
+								)
+						  )
+						: 0,
+				matched,
+			};
 
-      response.userData.tickets.push(ticketData);
-    }
-  }
+			response.userData.tickets.push(ticketData);
+		}
+	}
 
-  const endTime = Number(lotteryInfo.endTime) * 1000;
+	const endTime = Number(lotteryInfo.endTime) * 1000;
 
-  response.ticketsSold = Number(fromNano(lotteryInfo.ticketCnt));
-  response.drawTime = endTime;
-  response.price = Number(fromNano(lotteryInfo.price));
-  response.status = getRoundStatus(lotteryInfo.status);
-  response.roundPot = Number(fromNano(lotteryInfo.amountCollected)).toFixed(2);
-  response.roundDraw = roundDrawString;
-  response.claimable = isClaimable;
+	response.ticketsSold = Number(fromNano(lotteryInfo.ticketCnt));
+	response.drawTime = endTime;
+	response.price = Number(fromNano(lotteryInfo.price));
+	response.status = getRoundStatus(lotteryInfo.status);
+	response.roundPot = Number(fromNano(lotteryInfo.amountCollected)).toFixed(2);
+	response.roundDraw = roundDrawString;
+	response.claimable = isClaimable;
 
-  return response;
+	return response;
 };
 
 /**
@@ -214,16 +244,16 @@ export const getRound = async (wallet: Wallet, roundIdx?: number): Promise<IRoun
  * @param tonConnect
  */
 export const createReferralWallet = async (tonConnect: TonConnect | any) => {
-  const factory = await getFactory();
-  const sender = getSender(tonConnect);
+	const factory = await getFactory();
+	const sender = getSender(tonConnect);
 
-  await factory.send(
-    sender,
-    {
-      value: toNano('0.015'),
-    },
-    'createRefWallet'
-  );
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.015"),
+		},
+		"createRefWallet"
+	);
 };
 
 /**
@@ -231,16 +261,16 @@ export const createReferralWallet = async (tonConnect: TonConnect | any) => {
  * @param tonConnect
  */
 export const claimReferralReward = async (tonConnect: TonConnect | any) => {
-  const sender = getSender(tonConnect);
-  const factory = await getFactory();
+	const sender = getSender(tonConnect);
+	const factory = await getFactory();
 
-  await factory.send(
-    sender,
-    {
-      value: toNano('0.02'),
-    },
-    'withdraw_ref'
-  );
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.02"),
+		},
+		"withdraw_ref"
+	);
 };
 
 /**
@@ -250,10 +280,10 @@ export const claimReferralReward = async (tonConnect: TonConnect | any) => {
  * @returns
  */
 export const getTicketsPrice = async (roundIdx: number, qty: number) => {
-  const lottery = await getLottery(roundIdx);
-  const cost = await lottery.getCalculateTotalPriceForBulkTickets(BigInt(qty));
+	const lottery = await getLottery(roundIdx);
+	const cost = await lottery.getCalculateTotalPriceForBulkTickets(BigInt(qty));
 
-  return Number(fromNano(cost)).toFixed(2);
+	return Number(fromNano(cost)).toFixed(2);
 };
 
 /**
@@ -266,13 +296,13 @@ export const getTicketsPrice = async (roundIdx: number, qty: number) => {
  * @returns
  */
 export const buyTicket = async (
-  tonConnect: TonConnect | any,
-  roundIdx: number,
-  qty: number,
-  cost: number,
-  refWallet?: Address
+	tonConnect: TonConnect | any,
+	roundIdx: number,
+	qty: number,
+	cost: number,
+	refWallet?: Address
 ) => {
-  return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet });
+	return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet });
 };
 
 /**
@@ -286,14 +316,14 @@ export const buyTicket = async (
  * @returns
  */
 export const buyTicketFor = async (
-  tonConnect: TonConnect | any,
-  roundIdx: number,
-  qty: number,
-  cost: number,
-  recipient: Address,
-  refWallet?: Address
+	tonConnect: TonConnect | any,
+	roundIdx: number,
+	qty: number,
+	cost: number,
+	recipient: Address,
+	refWallet?: Address
 ) => {
-  return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet, recipient });
+	return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet, recipient });
 };
 
 /**
@@ -303,31 +333,35 @@ export const buyTicketFor = async (
  * @param winTicketsIds
  * @returns
  */
-export const claimTickets = async (tonConnect: TonConnect | any, roundIdx: number, winTicketsIds: number[]) => {
-  const sender = new TonConnectProvider(tonConnect);
+export const claimTickets = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number,
+	winTicketsIds: number[]
+) => {
+	const sender = new TonConnectProvider(tonConnect);
 
-  if (!sender.address) {
-    return;
-  }
+	if (!sender.address) {
+		return;
+	}
 
-  const lottery = await getLottery(roundIdx);
-  const ticketIds: Dictionary<number, number> = Dictionary.empty();
+	const lottery = await getLottery(roundIdx);
+	const ticketIds: Dictionary<number, number> = Dictionary.empty();
 
-  for (let i = 0; i < winTicketsIds.length; i++) {
-    ticketIds.set(i, winTicketsIds[i]);
-  }
+	for (let i = 0; i < winTicketsIds.length; i++) {
+		ticketIds.set(i, winTicketsIds[i]);
+	}
 
-  await lottery.send(
-    sender,
-    {
-      value: toNano('0.02') * BigInt(winTicketsIds.length),
-    },
-    {
-      $$type: 'ClaimTickets',
-      ticketIds,
-      ticketLength: BigInt(winTicketsIds.length),
-    }
-  );
+	await lottery.send(
+		sender,
+		{
+			value: toNano("0.02") * BigInt(winTicketsIds.length),
+		},
+		{
+			$$type: "ClaimTickets",
+			ticketIds,
+			ticketLength: BigInt(winTicketsIds.length),
+		}
+	);
 };
 
 /**
@@ -336,17 +370,46 @@ export const claimTickets = async (tonConnect: TonConnect | any, roundIdx: numbe
  * @param tonConnect
  * @param roundIdx
  */
-export const claimPlatformComission = async (tonConnect: TonConnect | any, roundIdx: number) => {
-  const lottery = await getLottery(roundIdx);
-  const sender = getSender(tonConnect);
+export const claimPlatformComission = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number
+) => {
+	const lottery = await getLottery(roundIdx);
+	const sender = getSender(tonConnect);
 
-  await lottery.send(
-    sender,
-    {
-      value: toNano('0.01'),
-    },
-    'widrawCommission'
-  );
+	await lottery.send(
+		sender,
+		{
+			value: toNano("0.01"),
+		},
+		"widrawCommission"
+	);
+};
+
+/**
+ * Set operator for the lottery
+ * @requires admin
+ * @param tonConnect
+ * @param address
+ */
+export const setOperator = async (
+	tonConnect: TonConnect | any,
+	address: string
+) => {
+	const sender = getSender(tonConnect);
+	const fullAddress = Address.parse(address);
+	const factory = await getFactory();
+
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.005"),
+		},
+		{
+			$$type: "SetOperator",
+			operator: fullAddress,
+		}
+	);
 };
 
 /**
@@ -355,27 +418,29 @@ export const claimPlatformComission = async (tonConnect: TonConnect | any, round
  * @param tonConnect
  * @returns
  */
-export const createRound = async (tonConnect: TonConnect | any, drawAt: number) => {
-  const sender = getSender(tonConnect);
+export const createRound = async (
+	tonConnect: TonConnect | any,
+	drawAt: number
+) => {
+	const sender = getSender(tonConnect);
 
-  if (!sender.address) {
-    return;
-  }
+	if (!sender.address) {
+		return;
+	}
 
-  const factory = await getFactory();
-  await factory.send(
-    sender,
-    {
-      value: toNano('0.05'),
-    },
-    {
-      $$type: 'CreateLottery',
-      endTime: BigInt(drawAt / 1000),
-      price: toNano('0.02'),
-      discountDivisor: BigInt(400),
-      creator: sender.address,
-    }
-  );
+	const factory = await getFactory();
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.1"),
+		},
+		{
+			$$type: "Create",
+			endTime: BigInt(drawAt / 1000),
+			price: toNano("0.02"),
+			discountDivisor: BigInt(300),
+		}
+	);
 };
 
 /**
@@ -384,17 +449,20 @@ export const createRound = async (tonConnect: TonConnect | any, drawAt: number) 
  * @param tonConnect
  * @param roundIdx
  */
-export const closeRound = async (tonConnect: TonConnect | any, roundIdx: number) => {
-  const lottery = await getLottery(roundIdx);
-  const sender = getSender(tonConnect);
+export const closeRound = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number
+) => {
+	const lottery = await getLottery(roundIdx);
+	const sender = getSender(tonConnect);
 
-  await lottery.send(
-    sender,
-    {
-      value: toNano('0.01'),
-    },
-    'close'
-  );
+	await lottery.send(
+		sender,
+		{
+			value: toNano("0.01"),
+		},
+		"close"
+	);
 };
 
 /**
@@ -403,20 +471,23 @@ export const closeRound = async (tonConnect: TonConnect | any, roundIdx: number)
  * @param tonConnect
  * @param roundIdx
  */
-export const drawRound = async (tonConnect: TonConnect | any, roundIdx: number) => {
-  const factory = await getFactory();
-  const sender = getSender(tonConnect);
+export const drawRound = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number
+) => {
+	const factory = await getFactory();
+	const sender = getSender(tonConnect);
 
-  await factory.send(
-    sender,
-    {
-      value: toNano('0.04'),
-    },
-    {
-      $$type: 'Draw',
-      lotteryId: BigInt(roundIdx),
-    }
-  );
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.04"),
+		},
+		{
+			$$type: "Draw",
+			lotteryId: BigInt(roundIdx),
+		}
+	);
 };
 
 /**
@@ -425,57 +496,69 @@ export const drawRound = async (tonConnect: TonConnect | any, roundIdx: number) 
  * @param tonConnect
  * @param roundIdx
  */
-export const moveFunds = async (tonConnect: TonConnect | any, roundIdx: number) => {
-  const sender = getSender(tonConnect);
-  const lottery = await getLottery(roundIdx);
+export const moveFunds = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number
+) => {
+	const sender = getSender(tonConnect);
+	const lottery = await getLottery(roundIdx);
 
-  await lottery.send(
-    sender,
-    {
-      value: toNano('0.01'),
-    },
-    'moveFunds'
-  );
+	await lottery.send(
+		sender,
+		{
+			value: toNano("0.01"),
+		},
+		"moveFunds"
+	);
 };
 
 type BuyTicketParams = {
-  roundIdx: number;
-  qty: number;
-  cost: number;
-  recipient?: Address;
-  refWallet?: Address;
+	roundIdx: number;
+	qty: number;
+	cost: number;
+	recipient?: Address;
+	refWallet?: Address;
 };
 
-async function _buyTicket(tonConnect: TonConnect | any, params: BuyTicketParams) {
-  const sender = getSender(tonConnect);
+async function _buyTicket(
+	tonConnect: TonConnect | any,
+	params: BuyTicketParams
+) {
+	const sender = getSender(tonConnect);
 
-  if (!sender.address) {
-    return false;
-  }
+	if (!sender.address) {
+		return false;
+	}
 
-  const { roundIdx, qty, cost, refWallet = null, recipient = sender.address } = params;
-  const ticketNumbers: Dictionary<number, number> = Dictionary.empty();
+	const {
+		roundIdx,
+		qty,
+		cost,
+		refWallet = null,
+		recipient = sender.address,
+	} = params;
+	const ticketNumbers: Dictionary<number, number> = Dictionary.empty();
 
-  for (let i = 0; i < qty; i++) {
-    const rnd = 1000000 * Math.random();
-    ticketNumbers.set(i, Number.parseInt(rnd.toString()) + 1000000);
-  }
+	for (let i = 0; i < qty; i++) {
+		const rnd = 1000000 * Math.random();
+		ticketNumbers.set(i, Number.parseInt(rnd.toString()) + 1000000);
+	}
 
-  const lottery = await getLottery(roundIdx);
-  const bigintQty = BigInt(qty);
-  await lottery.send(
-    sender,
-    {
-      value: toNano(cost) + toNano('0.004') * bigintQty,
-    },
-    {
-      $$type: 'BuyTicket',
-      amount: bigintQty,
-      ticketNumbers,
-      recipient,
-      refWallet,
-    }
-  );
+	const lottery = await getLottery(roundIdx);
+	const bigintQty = BigInt(qty);
+	await lottery.send(
+		sender,
+		{
+			value: toNano(cost) + toNano("0.004") * bigintQty,
+		},
+		{
+			$$type: "BuyTicket",
+			amount: bigintQty,
+			ticketNumbers,
+			recipient,
+			refWallet,
+		}
+	);
 
-  return true;
+	return true;
 }
