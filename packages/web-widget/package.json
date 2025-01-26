@@ -1,5 +1,6 @@
 {
   "name": "@coin-unknown/lottery-widget",
+  "private": false,
   "version": "1.0.0",
   "type": "module",
   "browser": "dist/index.iife",
