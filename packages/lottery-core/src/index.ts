@@ -355,14 +355,13 @@ export const claimPlatformComission = async (tonConnect: TonConnect | any, round
  * @param tonConnect
  * @returns
  */
-export const createRound = async (tonConnect: TonConnect | any) => {
+export const createRound = async (tonConnect: TonConnect | any, drawAt: number) => {
   const sender = getSender(tonConnect);
 
   if (!sender.address) {
     return;
   }
 
-  const now = Math.floor(Date.now() / 1000);
   const factory = await getFactory();
   await factory.send(
     sender,
@@ -371,7 +370,7 @@ export const createRound = async (tonConnect: TonConnect | any) => {
     },
     {
       $$type: 'CreateLottery',
-      endTime: BigInt(now + 3600 * 10),
+      endTime: BigInt(drawAt / 1000),
       price: toNano('0.02'),
       discountDivisor: BigInt(400),
       creator: sender.address,
