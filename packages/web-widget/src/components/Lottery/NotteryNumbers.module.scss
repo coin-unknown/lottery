@@ -1,0 +1,79 @@
+.numbersContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* При желании добавьте gap или margin для отступов между шарами */
+  gap: 8px;
+  /* или
+    margin: 0 -5px;
+    > * {
+      margin: 0 5px;
+    }
+    */
+}
+
+.numbersSecondary {
+  .ballPos0,
+  .ballPos1,
+  .ballPos2,
+  .ballPos3,
+  .ballPos4,
+  .ballPos5 {
+    background: none;
+  }
+}
+
+.lotteryBall {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* тень и имитация блеска */
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.2),
+    inset 0 2px 8px rgba(255, 255, 255, 0.2);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+  &.matched {
+    box-shadow:
+    0 4px 0 rgba(7, 220, 18, 0.864),
+    inset 0 2px 8px rgba(13, 179, 118, 0.865);
+  }
+}
+
+/* Пример классов для 6 позиций (можно расширять при необходимости) */
+
+/* 1-я позиция (розовый шар) */
+.ballPos0 {
+  background: linear-gradient(145deg, #d44ca8, #aa2a7c);
+}
+
+/* 2-я позиция (фиолетовый шар) */
+.ballPos1 {
+  background: linear-gradient(145deg, #9b67ed, #723ed0);
+}
+
+/* 3-я позиция (голубой шар) */
+.ballPos2 {
+  background: linear-gradient(145deg, #5ed7e0, #36b9c3);
+}
+
+/* 4-я позиция (бирюзовый/зелёный) */
+.ballPos3 {
+  background: linear-gradient(145deg, #63ce8f, #4aad70);
+}
+
+/* 5-я позиция (салатовый) */
+.ballPos4 {
+  background: linear-gradient(145deg, #8adb58, #74c136);
+}
+
+/* 6-я позиция (жёлтый) */
+.ballPos5 {
+  background: linear-gradient(145deg, #f7d465, #e8b32b);
+}

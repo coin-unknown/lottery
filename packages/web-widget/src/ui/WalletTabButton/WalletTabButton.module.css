@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text-color-gray);
+  padding: 2px 8px;
+  border-bottom: 2px solid transparent;
+}
+
+.active {
+  color: var(--text-color-main);
+  border-bottom: 2px solid var(--text-color-main);
+}

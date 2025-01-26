@@ -1,0 +1,22 @@
+.time {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.timeSegment {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.superscript {
+  font-size: 16px;
+  font-weight: normal;
+  position: relative;
+  margin-left: 2px;
+  color: #a3a3a3;
+}

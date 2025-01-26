@@ -1,0 +1,54 @@
+{
+	"name": "@coin-unknown/lottery-core",
+	"version": "0.0.12",
+	"description": "My awesome typescript library",
+	"license": "MIT",
+	"exports": {
+		"./node": {
+			"types": "./dist/node.d.ts",
+			"import": "./dist/node.es",
+			"require": "./dist/node.cjs",
+			"default": "./dist/node.cjs"
+		},
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.es",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.cjs"
+		}
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.es",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "vite build -c vite.config.js",
+		"build:stub": "unbuild --stub",
+		"dev": "vite example/ -c vite.config.js",
+		"test": "vitest run",
+		"release": "bumpp package.json && pnpm publish",
+		"prepublishOnly": "pnpm build"
+	},
+	"devDependencies": {
+		"bumpp": "9.10.1",
+		"esbuild-sass-plugin": "^3.3.1",
+		"rollup-plugin-dts": "latest",
+		"sass-embedded": "^1.83.4",
+		"typescript": "5.7.3",
+		"vite": "6.0.10",
+		"vite-plugin-dts": "^4.5.0",
+		"vitest": "3.0.2"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@coin-unknown/lottery-core": "^0.0.12",
+		"@ton/core": "^0.59.1",
+		"@ton/crypto": "^3.3.0",
+		"@ton/ton": "^15.1.0",
+		"@tonconnect/sdk": "^3.0.6"
+	}
+}

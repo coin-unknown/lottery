@@ -1,0 +1,26 @@
+.quantityContainer {
+    background-color: #e5665a; /* Красно-розовый цвет, можно подправить */
+    color: #eafef4;            /* Светлый цвет текста */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 14px 20px;
+    border-radius: 12px;
+  }
+  
+  /* Кнопки +/- */
+  .button {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    user-select: none;  /* чтобы не выделялся текст */
+    width: 26px;
+    text-align: center;
+  }
+  
+  /* Само число посередине */
+  .value {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  

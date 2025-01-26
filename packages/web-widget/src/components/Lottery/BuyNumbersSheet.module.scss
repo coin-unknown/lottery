@@ -1,0 +1,48 @@
+@import '../../ui/Sheet/Sheet.scss';
+
+.animation {
+  align-self: center;
+  width: 100%;
+  height: auto;
+}
+
+.buyButton {
+  position: absolute;
+  bottom: 60px;
+}
+
+.loadingTitle {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 100;
+  color: #d81e67;
+  margin: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 16px;
+  display: none;
+  z-index: 10;
+}
+
+.sectionsContainer {
+  margin-top: 20px;
+
+  .section + .section {
+    margin-top: 12px;
+  }
+}
+
+.quantity {
+  margin: 12px 0;
+}
+
+.toastIcon {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  left: -8px;
+}

@@ -1,0 +1,64 @@
+@import '../../ui/Sheet/Sheet.scss';
+
+.animation {
+  align-self: center;
+  width: 100%;
+  height: auto;
+}
+
+.loadingTitle {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 100;
+  color: #d81e67;
+  margin: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 16px;
+  display: none;
+  z-index: 10;
+}
+
+.sectionsContainer {
+  margin-top: 20px;
+
+  .section + .section {
+    margin-top: 12px;
+  }
+}
+
+.rulesPic {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+
+
+.tabsSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.tabsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 35vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+
+.tabsRow {
+  display: flex;
+  width: 100%;
+  /*justify-content: space-between;*/
+}

@@ -1,0 +1,40 @@
+{
+  "name": "react-vite-sdk-widget",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vite --host\" \"npm run dev:css\"",
+    "build": "concurrently \"tsc --jsx react-jsx && vite build\"",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@coin-unknown/lottery-core": "^0.0.12",
+    "@tonconnect/ui-react": "^2.0.11",
+    "lucide-react": "^0.460.0",
+    "motion": "^12.0.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-modal-sheet": "^4.0.1",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@ton/core": "^0.59.1",
+    "@ton/ton": "^15.1.0",
+    "@types/node": "^22.9.1",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/rollup": "^0.54.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^9.1.0",
+    "postcss": "^8.4.32",
+    "sass-embedded": "^1.83.4",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-commonjs": "^0.10.4",
+    "vite-plugin-node-polyfills": "^0.23.0"
+  },
+  "packageManager": "pnpm@8.13.1+sha1.90f9b2bb3ed58632bcb7b13c3902d6873ee9501c"
+}
