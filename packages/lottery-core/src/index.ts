@@ -230,7 +230,7 @@ export const createReferralWallet = async (tonConnect: TonConnect | any) => {
  * Withdraw	referral rewards
  * @param tonConnect
  */
-export const claimReferralReward = async (tonConnect: TonConnect) => {
+export const claimReferralReward = async (tonConnect: TonConnect | any) => {
   const sender = getSender(tonConnect);
   const factory = await getFactory();
 
