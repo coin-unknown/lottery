@@ -15,19 +15,14 @@ import iconInfo from '../../assets/icon-info.svg?url';
 import arrowLeft from '../../assets/arrow-left.svg?url';
 import arrowRight from '../../assets/arrow-right.svg?url';
 import ColorLoader from '../../ui/ColorLoader/ColorLoader';
+import { WidgetConfig } from '@/types';
 
-interface NotteryCardProps {
-  linesText?: string;
-  jackpotAmount?: string;
-  details?: string[];
-  logoUrl?: string;
-}
 // crate symlink in folder to another folder bash
 
 // const ADMIN_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 // const OPERATOR_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 
-export const NotteryCard: React.FC<NotteryCardProps> = () => {
+export const NotteryCard: React.FC<{config: WidgetConfig }> = () => {
   const { setIsShowNotteryBuyModal, setIsShowNotteryNumbersModal, setIsShowNotteryRulesModal } = useAppStore();
   const [activeRound, setActiveRound] = useState<IRound | null>(null);
   const wallet = useTonWallet();

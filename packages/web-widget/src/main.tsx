@@ -5,13 +5,12 @@ import { WidgetConfig } from './types';
 
 declare global {
   interface Window {
-    initSdkWidget: (config: WidgetConfig) => void;
+    initLotteryWidget: (config: WidgetConfig) => void;
   }
 }
 
 const createWidget = (config: WidgetConfig) => {
-  console.log(config);
-  const widgetContainer = document.getElementById('lottery-widget');
+  const widgetContainer = document.getElementById(config.containerId);
 
   if (!widgetContainer) {
     throw new Error('Widget container not found');
@@ -20,9 +19,9 @@ const createWidget = (config: WidgetConfig) => {
   const root = ReactDOM.createRoot(widgetContainer);
   root.render(
     <React.StrictMode>
-      <Nottery />
+      <Nottery config={config}/>
     </React.StrictMode>
   );
 };
 
-window.initSdkWidget = createWidget; 
+window.initLotteryWidget = createWidget; 

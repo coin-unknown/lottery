@@ -1,7 +1,9 @@
+import { WidgetConfig } from "@/types";
 import NotteryCard from "./NotteryCard";
 import { TonConnectButton, TonConnectUIProvider } from "@tonconnect/ui-react";
+import classes from "./Nottery.module.scss";
 
-export function Nottery() {
+export function Nottery(props: WidgetConfig) {
 	return (
 		<TonConnectUIProvider
 			manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
@@ -9,8 +11,8 @@ export function Nottery() {
 				twaReturnUrl: "https://app.unknown-coin.com/lottery",
 			}}
 		>
-      <TonConnectButton />
-			<NotteryCard />
+      		<TonConnectButton className={classes.tonConnectButton} />
+			<NotteryCard config={props} />
 		</TonConnectUIProvider>
 	);
 }
