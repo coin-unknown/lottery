@@ -1,12 +1,12 @@
 import React from 'react';
 
-import classes from './WalletTabButton.module.css';
-import { WalletTabType } from '../../../../types/types';
+import { TabType } from '@/types';
+import classes from './WalletTabButton.module.scss';
 
 interface IWalletTabButtonProps {
-  tab: WalletTabType;
+  tab: TabType;
   isActive: boolean;
-  onClick: (tab: WalletTabType) => void;
+  onClick: (tab: TabType) => void;
 }
 
 const WalletTabButton: React.FC<IWalletTabButtonProps> = ({ tab, isActive, onClick }) => {

@@ -18,7 +18,6 @@ interface IMainButtonProps {
 
 const MainButton: React.FC<IMainButtonProps> = ({
   title,
-  icon,
   onClick,
   className,
   shining = false,

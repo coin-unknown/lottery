@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { IRound, RoundStatus, claimTickets, getRound } from '@coin-unknown/lottery-core';
 import classes from './NotteryCard.module.scss';
-import { useTonAddress, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
+import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 import ShowNumbersSheet from './ShowNumbersSheet';
 import NotteryNumbers from './NotteryNumbers';
 import BuyNumbersSheet from './BuyNumbersSheet';
@@ -24,8 +24,8 @@ interface NotteryCardProps {
 }
 // crate symlink in folder to another folder bash
 
-const ADMIN_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
-const OPERATOR_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
+// const ADMIN_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
+// const OPERATOR_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 
 export const NotteryCard: React.FC<NotteryCardProps> = () => {
   const { setIsShowNotteryBuyModal, setIsShowNotteryNumbersModal, setIsShowNotteryRulesModal } = useAppStore();
@@ -36,9 +36,9 @@ export const NotteryCard: React.FC<NotteryCardProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [lastRoundIdx, setLastRoundIdx] = useState<number>(0);
   const initRef = useRef(false);
-  const address = useTonAddress();
-  const isAdmin = address === ADMIN_WALLET;
-  const isOperator = isAdmin || address === OPERATOR_WALLET;
+  // const address = useTonAddress();
+  // const isAdmin = address === ADMIN_WALLET;
+  // const isOperator = isAdmin || address === OPERATOR_WALLET;
 
   const tickets = activeRound?.userData.tickets || [];
   const claimableTickets = tickets?.filter((item) => item.matched > 0);

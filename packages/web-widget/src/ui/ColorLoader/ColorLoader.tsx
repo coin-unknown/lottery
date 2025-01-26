@@ -1,11 +1,9 @@
 import React from 'react';
 
-import classes from './ColorLoader.module.scss';
-
 interface ColorLoaderProps {
   className?: string;
 }
-const ColorLoader: React.FC<ColorLoaderProps> = ({ className = '' }) => {
+const ColorLoader: React.FC<ColorLoaderProps> = () => {
   return (
     <div className="custom-spinner">
       <svg x="0px" y="0px" width="48px" height="48px" viewBox="0 0 50 50">

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
+import { TabType } from '@/types';
 import classes from './RulesSheet.module.scss';
 import { Sheet } from 'react-modal-sheet';
 import { useAppStore } from '../../store/appStore';
@@ -10,10 +11,6 @@ import WalletTabButton from '../../ui/WalletTabButton/WalletTabButton';
 import { sharedSheetProps } from '../../ui/Sheet/sheet-config';
 
 interface IPopUpInsufficientBalanceProps {}
-type TabType = {
-  id: string;
-  title: string;
-};
 
 const RulesSheet: React.FC<IPopUpInsufficientBalanceProps> = () => {
   const { setIsShowNotteryRulesModal, isShowNotteryRulesModal } = useAppStore();
@@ -25,7 +22,7 @@ const RulesSheet: React.FC<IPopUpInsufficientBalanceProps> = () => {
   const [activeTab, setActiveTab] = useState<TabType>(tabs[0]);
   const isActiveTabTickets = activeTab.id === 'tickets';
 
-  const onTabClick = (tab: TabType) => {
+  const onTabClick = () => {
     if (isActiveTabTickets) {
       setActiveTab(tabs[1]);
     } else {

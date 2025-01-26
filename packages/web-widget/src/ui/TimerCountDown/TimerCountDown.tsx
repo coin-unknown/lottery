@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import classes from './TimerCountDown.module.css';
+import classes from './TimerCountDown.module.scss';
 
 interface ITimerCountDownProps {
   initTimeInMs: number;

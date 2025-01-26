@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './DotsLoader.module.css';
+import classes from './DotsLoader.module.scss';
 
 const DotsLoader: React.FC<{ className?: string }> = (props) => {
   return (

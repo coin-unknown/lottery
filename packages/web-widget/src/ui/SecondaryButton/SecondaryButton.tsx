@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './SecondaryButton.module.css';
+import classes from './SecondaryButton.module.scss';
 
 interface ISecondaryButtonProps {
   title: string;
