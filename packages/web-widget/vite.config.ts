@@ -32,7 +32,7 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/main.tsx'),
       name: 'SDKWidget',
       fileName: 'sdk-widget',
-      formats: ['iife']
+      formats: ['iife', 'es', 'cjs'],
     },
     rollupOptions: {
       output: {

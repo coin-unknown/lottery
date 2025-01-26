@@ -1,0 +1,10 @@
+.github/
+example/
+src/
+test/
+index.html
+tailwind.config.js
+tsconfig.json
+node_modules/
+.gitignore
+global.d.ts

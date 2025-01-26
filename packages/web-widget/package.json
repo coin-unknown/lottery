@@ -1,8 +1,11 @@
 {
-  "name": "react-vite-sdk-widget",
+  "name": "@coin-unknown/lottery-widget",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "browser": "dist/index.iife",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "scripts": {
     "dev": "concurrently \"vite --host\" \"npm run dev:css\"",
     "build": "concurrently \"tsc --jsx react-jsx && vite build\"",
