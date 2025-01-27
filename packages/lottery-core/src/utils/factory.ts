@@ -1,5 +1,5 @@
 import { Address, type OpenedContract, type Sender, type SenderArguments, beginCell, storeStateInit } from '@ton/core';
-import * as ton from '@ton/ton';
+import { TonClient } from '@ton/ton';
 import type { TonConnect } from '@tonconnect/sdk';
 import { Lottery } from './tact_Lottery';
 import { LotteryFactory } from './tact_LotteryFactory';
@@ -10,7 +10,7 @@ import { TON_CLIENT_ENDPOINT, TON_CLIENT_API_KEY } from '../constants';
 export const CONTRACT_ADDRESS = 'EQAndtP8cSPSkwlFK-lPMBYKDYMxsNUydc6yCiJcjnBuEfeO';
 
 // Инициализация TON клиента
-const client = new ton.TonClient({
+const client = new TonClient({
   endpoint: TON_CLIENT_ENDPOINT,
   apiKey: TON_CLIENT_API_KEY,
 });

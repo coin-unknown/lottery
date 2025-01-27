@@ -7,7 +7,7 @@ export default defineConfig({
     lib: {
       entry: 'src/index.ts', // Основной вход
       name: 'index',
-      fileName: 'index',
+      fileName: '[name]',
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
@@ -18,7 +18,6 @@ export default defineConfig({
       external: ['@ton/core', '@ton/ton', '@ton/crypto'],
       output: {
         sourcemap: true,
-        entryFileNames: '[name].[format]', // Установка разных имен файлов
         globals: {
           '@ton/core': 'TonCore',
           '@ton/ton': 'TonTon',
