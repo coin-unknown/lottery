@@ -436,7 +436,7 @@ export const createRound = async (
 		},
 		{
 			$$type: "Create",
-			endTime: BigInt(drawAt / 1000),
+			endTime: BigInt(Math.floor(drawAt / 1000)),
 			price: toNano("0.02"),
 			discountDivisor: BigInt(300),
 		}

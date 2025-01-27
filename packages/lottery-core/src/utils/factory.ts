@@ -4,10 +4,7 @@ import type { TonConnect } from '@tonconnect/sdk';
 import { Lottery } from './tact_Lottery';
 import { LotteryFactory } from './tact_LotteryFactory';
 import { ReferralWallet } from './tact_ReferralWallet';
-import { TON_CLIENT_ENDPOINT, TON_CLIENT_API_KEY } from '../constants';
-
-// TODO: Need to be moved to outside to json file and used as dynamic import
-export const CONTRACT_ADDRESS = 'EQAndtP8cSPSkwlFK-lPMBYKDYMxsNUydc6yCiJcjnBuEfeO';
+import { TON_CLIENT_ENDPOINT, TON_CLIENT_API_KEY, CONTRACT_ADDRESS } from '../constants';
 
 // Инициализация TON клиента
 const client = new TonClient({
