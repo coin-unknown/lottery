@@ -141,6 +141,58 @@ function getRoundStatus(status: bigint): RoundStatus {
 }
 
 /**
+ * Get information about a specific round for the unauthorized user
+ * @param roundIdx round number
+ * @returns
+ */
+export const getRoundGuest = async (roundIdx?: number): Promise<IRound> => {
+	if (roundIdx === undefined) {
+		roundIdx = await getLastRoundId();
+	}
+
+	const response: IRound = {
+		id: roundIdx,
+		ticketsSold: 0,
+		drawTime: 0,
+		price: 0,
+		status: RoundStatus.Open,
+		claimable: false,
+		roundPot: "0",
+		roundDraw: "",
+		userData: {
+			refReward: 0,
+			refWallet: null,
+			tickets: [],
+		},
+	};
+
+	const lottery = await getLottery(roundIdx);
+	const [lotteryInfo, roundDraw] =
+		await Promise.all([
+			lottery.getInfo(),
+			lottery.getWinningNumber(),
+		]);
+
+	// Reverse back number
+	let roundDrawString = "";
+
+	if (roundDraw > 0) {
+		roundDrawString = getReadableTicketNumber(roundDraw);
+	}
+
+	const endTime = Number(lotteryInfo.endTime) * 1000;
+
+	response.ticketsSold = Number(fromNano(lotteryInfo.ticketCnt));
+	response.drawTime = endTime;
+	response.price = Number(fromNano(lotteryInfo.price));
+	response.status = getRoundStatus(lotteryInfo.status);
+	response.roundPot = Number(fromNano(lotteryInfo.amountCollected)).toFixed(2);
+	response.roundDraw = roundDrawString;
+
+	return response;
+};
+
+/**
  * Get information about a specific round
  * @param roundIdx round number
  * @returns
@@ -520,10 +572,13 @@ export const moveFunds = async (
 
 /**
  * @requires admin
- * @param tonConnect 
- * @param roundIdx 
+ * @param tonConnect
+ * @param roundIdx
  */
-export const _emergencyWitdraw = async (tonConnect: TonConnect | any, roundIdx: number) => {
+export const _emergencyWitdraw = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number
+) => {
 	const factory = await getFactory();
 	const sender = getSender(tonConnect);
 
@@ -537,7 +592,7 @@ export const _emergencyWitdraw = async (tonConnect: TonConnect | any, roundIdx: 
 			lotteryId: BigInt(roundIdx),
 		}
 	);
-}
+};
 
 type BuyTicketParams = {
 	roundIdx: number;
