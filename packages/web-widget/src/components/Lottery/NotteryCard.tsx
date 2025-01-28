@@ -22,7 +22,7 @@ import { WidgetConfig } from '@/types';
 // const ADMIN_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 // const OPERATOR_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 
-export const NotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
+export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   const { setIsShowNotteryBuyModal, setIsShowNotteryNumbersModal, setIsShowNotteryRulesModal } = useAppStore();
   const [activeRound, setActiveRound] = useState<IRound | null>(null);
   const wallet = useTonWallet();
@@ -276,4 +276,4 @@ export const NotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   );
 };
 
-export default NotteryCard;
+export default LotteryCard;

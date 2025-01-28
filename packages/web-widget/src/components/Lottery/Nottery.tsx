@@ -1,5 +1,5 @@
 import { WidgetConfig } from "@/types";
-import NotteryCard from "./NotteryCard";
+import LotteryCard from "./NotteryCard";
 import { TonConnectButton, TonConnectUIProvider } from "@tonconnect/ui-react";
 import classes from "./Nottery.module.scss";
 
@@ -17,7 +17,7 @@ export function Nottery(props: NotteryProps) {
 			}}
 		>
       		<TonConnectButton className={classes.tonConnectButton} />
-			<NotteryCard className={props.className} config={props.config} />
+			<LotteryCard config={props.config} />
 		</TonConnectUIProvider>
 	);
 }
