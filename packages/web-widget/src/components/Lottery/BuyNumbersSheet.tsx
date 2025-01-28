@@ -40,7 +40,7 @@ const BuyNumbersSheet: React.FC<IPopUpInsufficientBalanceProps> = ({ roundIdx, t
       }
 
       setIsLoading(false);
-      setTotalPrice(totalPrice);
+      setTotalPrice(totalPrice.toFixed(2));
     },
     [roundIdx]
   );
