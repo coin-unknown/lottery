@@ -73,7 +73,7 @@ const BuyNumbersSheet: React.FC<IPopUpInsufficientBalanceProps> = ({
 			className={classes.sheetModal}
 			isOpen={isShowNotteryBuyModal}
 			onClose={onClickCloseSheet}
-			snapPoints={[600]}
+			snapPoints={[400]}
 			tweenConfig={sharedSheetProps.tweenConfig}
 		>
 			<Sheet.Container className={classes.modalContainer}>
