@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { IRound, RoundStatus, claimTickets, getRound } from '@coin-unknown/lottery-core';
+import { IRound, RoundStatus, claimTickets, getRound, getRoundGuest  } from '@coin-unknown/lottery-core';
 import classes from './NotteryCard.module.scss';
 import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 import ShowNumbersSheet from './ShowNumbersSheet';
@@ -44,17 +44,18 @@ export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
 
   const requestRoundData = useCallback(
     async (idx?: number) => {
-      if (!wallet) {
-        return;
-      }
-
+      let info: IRound;
       const silent = idx === activeRoundIdx;
 
       if (!silent) {
         setIsLoading(true);
       }
 
-      const info = await getRound(wallet, idx);
+      if (wallet) {
+        info = await getRound(wallet, idx);
+      } else {
+        info = await getRoundGuest(idx);
+      }
 
       if (idx === undefined) {
         setLastRoundIdx(info.id);
@@ -81,7 +82,7 @@ export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   useTonBalance(onBalanceChange);
 
   useEffect(() => {
-    if (!wallet || initRef.current) {
+    if (initRef.current) {
       return;
     }
 
@@ -138,8 +139,12 @@ export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   }, [setIsShowNotteryRulesModal]);
 
   const onBuyClick = useCallback(() => {
-    setIsShowNotteryBuyModal(true);
-  }, [setIsShowNotteryBuyModal]);
+    if (wallet) {
+      setIsShowNotteryBuyModal(true);
+    } else {
+      tonConnectUI.openModal();
+    }
+  }, [setIsShowNotteryBuyModal, tonConnectUI, wallet]);
 
   const onShowNumbersSheet = useCallback(() => {
     setIsShowNotteryNumbersModal(true);
