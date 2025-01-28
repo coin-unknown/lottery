@@ -1,5 +1,3 @@
-import type { Address } from "@ton/core";
-
 export interface User {
 	ticketCnt: number;
 	ticketIds: number[];
@@ -26,7 +24,7 @@ export interface ITicket {
 }
 
 export interface IUserData {
-	refWallet: Address | null;
+	refWallet: string | null;
 	refReward: number;
 	tickets: ITicket[];
 }

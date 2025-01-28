@@ -549,8 +549,8 @@ export type Lottery$Data = {
 	ticketCnt: bigint;
 	endTime: bigint;
 	price: bigint;
-	status: bigint;
 	discountDivisor: bigint;
+	status: bigint;
 	claimed: Dictionary<Address, number>;
 	feePercent: bigint;
 	refPercent: bigint;
@@ -574,8 +574,8 @@ export function storeLottery$Data(src: Lottery$Data) {
 		b_1.storeUint(src.endTime, 256);
 		let b_2 = new Builder();
 		b_2.storeUint(src.price, 256);
-		b_2.storeUint(src.status, 16);
 		b_2.storeInt(src.discountDivisor, 257);
+		b_2.storeUint(src.status, 16);
 		b_2.storeDict(
 			src.claimed,
 			Dictionary.Keys.Address(),
@@ -619,8 +619,8 @@ export function loadLottery$Data(slice: Slice) {
 	let _endTime = sc_1.loadUintBig(256);
 	let sc_2 = sc_1.loadRef().beginParse();
 	let _price = sc_2.loadUintBig(256);
-	let _status = sc_2.loadUintBig(16);
 	let _discountDivisor = sc_2.loadIntBig(257);
+	let _status = sc_2.loadUintBig(16);
 	let _claimed = Dictionary.load(
 		Dictionary.Keys.Address(),
 		Dictionary.Values.Uint(8),
@@ -656,8 +656,8 @@ export function loadLottery$Data(slice: Slice) {
 		ticketCnt: _ticketCnt,
 		endTime: _endTime,
 		price: _price,
-		status: _status,
 		discountDivisor: _discountDivisor,
+		status: _status,
 		claimed: _claimed,
 		feePercent: _feePercent,
 		refPercent: _refPercent,
@@ -1295,12 +1295,12 @@ const ReferralWallet_types: ABIType[] = [
 				type: { kind: "simple", type: "uint", optional: false, format: 256 },
 			},
 			{
-				name: "status",
-				type: { kind: "simple", type: "uint", optional: false, format: 16 },
-			},
-			{
 				name: "discountDivisor",
 				type: { kind: "simple", type: "int", optional: false, format: 257 },
+			},
+			{
+				name: "status",
+				type: { kind: "simple", type: "uint", optional: false, format: 16 },
 			},
 			{
 				name: "claimed",

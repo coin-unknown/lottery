@@ -186,10 +186,14 @@ export const getRound = async (
 	if (Number(refNum) > 0) {
 		// TODO: test it
 		const refAddress = await factory.getReferrerWalletAddress(walletAddress);
+		console.log("refAddress", refAddress);
 		const ref = await getRefWallet(refAddress);
 
-		response.userData.refReward = Number(fromNano(await ref.getBalance()));
-		response.userData.refWallet = ref.address;
+		try {
+		const refBalance = await ref.getBalance();
+		response.userData.refReward = Number(fromNano(refBalance));
+		} catch (e) {}
+		response.userData.refWallet = ref.address.toString();
 	}
 
 	// Reverse back number
@@ -283,7 +287,7 @@ export const getTicketsPrice = async (roundIdx: number, qty: number) => {
 	const lottery = await getLottery(roundIdx);
 	const cost = await lottery.getCalculateTotalPriceForBulkTickets(BigInt(qty));
 
-	return Number(fromNano(cost)).toFixed(2);
+	return Number(fromNano(cost));
 };
 
 /**
@@ -300,8 +304,10 @@ export const buyTicket = async (
 	roundIdx: number,
 	qty: number,
 	cost: number,
-	refWallet?: Address
+	ref?: string
 ) => {
+	const refWallet = ref ? Address.parse(ref) : undefined;
+
 	return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet });
 };
 
@@ -437,7 +443,7 @@ export const createRound = async (
 		{
 			$$type: "Create",
 			endTime: BigInt(Math.floor(drawAt / 1000)),
-			price: toNano("0.02"),
+			price: toNano("0.2"),
 			discountDivisor: BigInt(300),
 		}
 	);
@@ -511,6 +517,27 @@ export const moveFunds = async (
 		"moveFunds"
 	);
 };
+
+/**
+ * @requires admin
+ * @param tonConnect 
+ * @param roundIdx 
+ */
+export const _emergencyWitdraw = async (tonConnect: TonConnect | any, roundIdx: number) => {
+	const factory = await getFactory();
+	const sender = getSender(tonConnect);
+
+	await factory.send(
+		sender,
+		{
+			value: toNano("0.05"),
+		},
+		{
+			$$type: "EmergencyWithdraw",
+			lotteryId: BigInt(roundIdx),
+		}
+	);
+}
 
 type BuyTicketParams = {
 	roundIdx: number;
