@@ -186,13 +186,13 @@ export const getRound = async (
 	if (Number(refNum) > 0) {
 		// TODO: test it
 		const refAddress = await factory.getReferrerWalletAddress(walletAddress);
-		console.log("refAddress", refAddress);
 		const ref = await getRefWallet(refAddress);
 
 		try {
-		const refBalance = await ref.getBalance();
-		response.userData.refReward = Number(fromNano(refBalance));
+			const refBalance = await ref.getBalance();
+			response.userData.refReward = Number(fromNano(refBalance));
 		} catch (e) {}
+
 		response.userData.refWallet = ref.address.toString();
 	}
 

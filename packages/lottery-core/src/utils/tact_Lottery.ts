@@ -1004,6 +1004,7 @@ const Lottery_errors: { [key: number]: { message: string } } = {
 	50970: { message: `No ticket specified` },
 	54634: { message: `You are not owner` },
 	55607: { message: `You are not factory` },
+	62972: { message: `Invalid balance` },
 };
 
 const Lottery_types: ABIType[] = [
