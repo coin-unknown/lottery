@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@coin-unknown/lottery-core": "^0.0.21",
+    "@coin-unknown/lottery-core": "^0.0.22",
     "@tonconnect/ui-react": "^2.0.11",
     "lucide-react": "^0.460.0",
     "motion": "^12.0.5",

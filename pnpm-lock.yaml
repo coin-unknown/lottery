@@ -54,8 +54,8 @@ importers:
   packages/web-widget:
     dependencies:
       '@coin-unknown/lottery-core':
-        specifier: ^0.0.21
-        version: 0.0.21
+        specifier: ^0.0.22
+        version: 0.0.22
       '@tonconnect/ui-react':
         specifier: ^2.0.11
         version: 2.0.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -222,8 +222,8 @@ packages:
   '@coin-unknown/lottery-core@0.0.12':
     resolution: {integrity: sha512-yoWAKxjcegz+LN5pZUdupje+FmrpuMRTnoPbc56G3CkfaB/MUNLBDWSWJ83ciS6n45eDRhQ6TX9uwCxNu9sg5g==}
 
-  '@coin-unknown/lottery-core@0.0.21':
-    resolution: {integrity: sha512-Vb++gu2uMInGMrGSsEPaL7QLePO4iZlakRWFjeCEaUh+ajCWBhvCd7SzNjLfT4DQ0E71psZM45Ej4c+M4y9Qzw==}
+  '@coin-unknown/lottery-core@0.0.22':
+    resolution: {integrity: sha512-cgu0Yb2iIldRm+efjhnYXYRdWTXzj57h+XUeMBTjFL5ki5yqitgHnRnI6A83c7jEIkKL2O+xBZxyvRZUZ/hfNQ==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -2887,7 +2887,7 @@ snapshots:
       - debug
       - encoding
 
-  '@coin-unknown/lottery-core@0.0.21':
+  '@coin-unknown/lottery-core@0.0.22':
     dependencies:
       '@coin-unknown/lottery-core': 0.0.12
       '@ton/core': 0.59.1(@ton/crypto@3.3.0)

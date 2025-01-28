@@ -3,7 +3,9 @@ export type WidgetConfig = {
   refferalWallet: string;
   className?: string;
 };
-
+export type PartnerConfig = {
+  containerId: string;
+};
 export type TabType = {
   id: string;
   title: string;

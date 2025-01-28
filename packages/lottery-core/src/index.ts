@@ -236,16 +236,10 @@ export const getRound = async (
 		]);
 
 	if (Number(refNum) > 0) {
-		// TODO: test it
-		const refAddress = await factory.getReferrerWalletAddress(walletAddress);
-		const ref = await getRefWallet(refAddress);
+		const { refWallet, refReward } = await getRefferalData(wallet);
 
-		try {
-			const refBalance = await ref.getBalance();
-			response.userData.refReward = Number(fromNano(refBalance));
-		} catch (e) {}
-
-		response.userData.refWallet = ref.address.toString();
+		response.userData.refReward = refReward;
+		response.userData.refWallet = refWallet;
 	}
 
 	// Reverse back number
@@ -311,6 +305,29 @@ export const createReferralWallet = async (tonConnect: TonConnect | any) => {
 		"createRefWallet"
 	);
 };
+
+/**
+ * Get you ref wallet address in lottery smart contract
+ * @param wallet 
+ */
+export const getRefferalData = async (wallet: Wallet) => {
+	let refReward = 0;
+	let refWallet = null;
+
+	const factory = await getFactory();
+	// TODO: test it
+	const refAddress = await factory.getReferrerWalletAddress(Address.parse(wallet.account.address));
+	const ref = await getRefWallet(refAddress);
+
+	try {
+		const refBalance = await ref.getBalance();
+		refReward = Number(fromNano(refBalance));
+	} catch (e) {}
+
+	refWallet = ref.address.toString();
+
+	return { refReward, refWallet };
+}
 
 /**
  * Withdraw	referral rewards

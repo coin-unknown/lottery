@@ -13,7 +13,7 @@ export function Nottery(props: NotteryProps) {
 		<TonConnectUIProvider
 			manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
 			actionsConfiguration={{
-				twaReturnUrl: "https://app.unknown-coin.com/lottery",
+				twaReturnUrl: "https://unknown-coin.com/lottery",
 			}}
 		>
       		<TonConnectButton className={classes.tonConnectButton} />
