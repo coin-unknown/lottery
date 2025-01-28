@@ -33,6 +33,7 @@
         </div>
     </header>
 
+    <div id="lottery-widget"></div>
     <!-- Practice Areas -->
     <section id="practice-areas" class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
@@ -81,10 +82,8 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
       window.addEventListener('load', () => {
-        window.initSdkWidget({
-          company_name: 'Mostafa Law Law House',
-          company_slug: 'mostafa-law-house',
-          additional_open_id: 'sdk_widget_button'
+        window.initLotteryWidget({
+            containerId: 'lottery-widget',
         });
       });
     </script>

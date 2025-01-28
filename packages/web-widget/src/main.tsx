@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Nottery } from './components/Lottery/Nottery';
 import { WidgetConfig } from './types';
+import classes from './styles.module.scss';
 
 declare global {
   interface Window {
@@ -19,7 +20,7 @@ const createWidget = (config: WidgetConfig) => {
   const root = ReactDOM.createRoot(widgetContainer);
   root.render(
     <React.StrictMode>
-      <Nottery config={config}/>
+      <Nottery className={classes.widget} config={config}/>
     </React.StrictMode>
   );
 };

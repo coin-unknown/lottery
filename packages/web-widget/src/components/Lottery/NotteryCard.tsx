@@ -22,7 +22,7 @@ import { WidgetConfig } from '@/types';
 // const ADMIN_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 // const OPERATOR_WALLET = '0QC9xvzwT26Ttkdu6lEUpLn6VjnK9fK1AipYaBKIq21okQ6M';
 
-export const NotteryCard: React.FC<{config: WidgetConfig }> = () => {
+export const NotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   const { setIsShowNotteryBuyModal, setIsShowNotteryNumbersModal, setIsShowNotteryRulesModal } = useAppStore();
   const [activeRound, setActiveRound] = useState<IRound | null>(null);
   const wallet = useTonWallet();
@@ -249,7 +249,7 @@ export const NotteryCard: React.FC<{config: WidgetConfig }> = () => {
   }
 
   return (
-    <>
+    <div className={props.config.className || ''}>
       <div className={classes.controls}>
         <img
           src={arrowLeft}
@@ -272,7 +272,7 @@ export const NotteryCard: React.FC<{config: WidgetConfig }> = () => {
       {activeRound && <ShowNumbersSheet roundData={activeRound} />}
       <BuyNumbersSheet roundIdx={activeRound?.id || 0} ticketPrice={activeRound?.price || 0} />
       <RulesSheet />
-    </>
+    </div>
   );
 };
 

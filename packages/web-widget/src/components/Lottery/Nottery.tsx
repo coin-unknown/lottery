@@ -5,6 +5,7 @@ import classes from "./Nottery.module.scss";
 
 interface NotteryProps {
 	config: WidgetConfig;
+	className?: string;
 }
 
 export function Nottery(props: NotteryProps) {
@@ -16,7 +17,7 @@ export function Nottery(props: NotteryProps) {
 			}}
 		>
       		<TonConnectButton className={classes.tonConnectButton} />
-			<NotteryCard config={props.config} />
+			<NotteryCard className={props.className} config={props.config} />
 		</TonConnectUIProvider>
 	);
 }
