@@ -1,23 +1,46 @@
+import { useImperativeHandle, forwardRef } from "react";
+import classes from "./Nottery.module.scss";
+import { TonConnectButton } from "@tonconnect/ui-react";
+import { useLotteryWidget } from "./hooks/useLotteryWidget";
 import { WidgetConfig } from "@/types";
 import LotteryCard from "./NotteryCard";
-import { TonConnectButton, TonConnectUIProvider } from "@tonconnect/ui-react";
-import classes from "./Nottery.module.scss";
+
+// Define the exposed methods
+export interface NotteryRef {
+	buyTickets: (qty: number) => void;
+	registerRefWallet: () => void;
+	claimRefReward: () => void;
+	getRefWallet: () => { refWallet: string | null; refBalance: number };
+}
 
 interface NotteryProps {
 	config: WidgetConfig;
 	className?: string;
 }
 
-export function Nottery(props: NotteryProps) {
-	return (
-		<TonConnectUIProvider
-			manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
-			actionsConfiguration={{
-				twaReturnUrl: "https://unknown-coin.com/lottery",
-			}}
-		>
-      		<TonConnectButton className={classes.tonConnectButton} />
-			<LotteryCard config={props.config} />
-		</TonConnectUIProvider>
-	);
-}
+export const Nottery = forwardRef<NotteryRef, NotteryProps>(
+	({ className = '', config }, ref) => {
+		const {
+			buyTickets,
+			registerRefWallet,
+			claimRefReward,
+			refWallet,
+			refBalance,
+		} = useLotteryWidget();
+
+		// Expose methods via useImperativeHandle
+		useImperativeHandle(ref, () => ({
+			buyTickets,
+			registerRefWallet,
+			claimRefReward,
+			getRefWallet: () => ({ refWallet, refBalance }),
+		}));
+
+		return (
+			<div className={className}>
+				<TonConnectButton className={classes.tonConnectButton} />
+				<LotteryCard config={config} />
+			</div>
+		);
+	}
+);

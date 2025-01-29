@@ -1,46 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Nottery } from './components/Lottery/Nottery';
-import { PartnerConfig, WidgetConfig } from './types';
-import classes from './styles.module.scss';
-import { PartnerWidget } from './components/Partner/Widget';
+import React, { createRef } from "react";
+import ReactDOM from "react-dom/client";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { Nottery, NotteryRef } from "./components/Lottery/Nottery";
+import classes from "./styles.module.scss";
+import { WidgetConfig } from "./types";
 
 declare global {
-  interface Window {
-    initLotteryWidget: (config: WidgetConfig) => void;
-    initPartnerWidget: (config: PartnerConfig) => void;
-  }
+	interface Window {
+    createWidget: (config: WidgetConfig) => void;
+		lotteryWidget: NotteryRef | null;
+	}
 }
 
 const createWidget = (config: WidgetConfig) => {
-  const widgetContainer = document.getElementById(config.containerId);
+	const lotteryRef = createRef<NotteryRef>();
+	const widgetContainer = document.getElementById(config.containerId);
 
-  if (!widgetContainer) {
-    throw new Error('Widget container not found');
-  }
+	if (!widgetContainer) {
+		throw new Error("Widget container not found");
+	}
 
-  const root = ReactDOM.createRoot(widgetContainer);
-  root.render(
-    <React.StrictMode>
-      <Nottery className={classes.widget} config={config}/>
-    </React.StrictMode>
-  );
+	// Assign to global window object
+	window.lotteryWidget = lotteryRef.current;
+  
+	const root = ReactDOM.createRoot(widgetContainer);
+
+	root.render(
+		<React.StrictMode>
+			<TonConnectUIProvider
+				manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
+				actionsConfiguration={{
+					twaReturnUrl: "https://unknown-coin.com/lottery",
+				}}
+			>
+				<div className={classes.widgetContainer}>
+					<Nottery
+						ref={lotteryRef}
+						className={classes.widget}
+						config={config}
+					/>
+				</div>
+			</TonConnectUIProvider>
+		</React.StrictMode>
+	);
 };
 
-const createPartnerWidget = (config: PartnerConfig) => {
-  const widgetContainer = document.getElementById(config.containerId);
-
-  if (!widgetContainer) {
-    throw new Error('Widget container not found');
-  }
-
-  const root = ReactDOM.createRoot(widgetContainer);
-  root.render(
-    <React.StrictMode>
-      <PartnerWidget className={classes.widget} config={config}/>
-    </React.StrictMode>
-  );
-}
-
-window.initLotteryWidget = createWidget; 
-window.initPartnerWidget = createPartnerWidget;
+window.createWidget = createWidget;

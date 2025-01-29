@@ -96,7 +96,7 @@ const BuyNumbersSheet: React.FC<IPopUpInsufficientBalanceProps> = ({
 							onChange={onQuantityChange}
 						/>
 						{!isLoading && discount > 0.012 ? (
-							<div>
+							<div className={classes.discount}>
 								{"Discount:"} {`${Number(discount).toFixed(2)} TON`} <br/>
 							</div>
 						) : null}
