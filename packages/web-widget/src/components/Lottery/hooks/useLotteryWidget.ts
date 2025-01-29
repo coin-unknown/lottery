@@ -7,39 +7,18 @@ import {
 	buyTicket,
 } from "@coin-unknown/lottery-core";
 import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useImperativeHandle, RefObject } from "react";
+import { NotteryRef } from "../Nottery";
 
-export const useLotteryWidget = (onReady: () => void) => {
+export const useLotteryWidget = (ref: RefObject<NotteryRef>, onConnected?: (ref: NotteryRef | null) => void) => {
 	const isReadyRef = useRef(false);
 	const [tonConnectUI] = useTonConnectUI();
 	const wallet = useTonWallet();
 	const [roundIdx, setRoundIdx] = useState<number | null>(null);
 
-	useEffect(() => {
-		// Last round is ready to work
-		if (!isReadyRef.current && typeof roundIdx === 'number' && roundIdx >= 0) {
-			isReadyRef.current = true;
-			onReady();
-		}
-	}, [roundIdx, onReady]);
-
-	// Fetch last round index on mount
-	useEffect(() => {
-		const fetchRoundIdx = async () => {
-			try {
-				const round = await getLastRoundId();
-				setRoundIdx(round);
-			} catch (error) {
-				console.error("Error fetching last round index:", error);
-			}
-		};
-		fetchRoundIdx();
-	}, []);
-
 	// Fetch referral wallet data
 	const getRefData = async () => {
 		if (!wallet) {
-			tonConnectUI.openModal();
 			return null;
 		}
 
@@ -86,11 +65,38 @@ export const useLotteryWidget = (onReady: () => void) => {
 		}
 	};
 
-	return {
+	// Expose methods via useImperativeHandle
+	useImperativeHandle(ref, () => ({
 		buyTickets,
 		registerRefWallet,
 		claimRefReward,
 		getRefData,
-		wallet,
-	};
+	}));
+
+	useEffect(() => {
+        if (isReadyRef.current && ref) {
+			onConnected?.(ref.current);
+        }
+    }, [wallet]); // Отслеживаем изменения
+
+	useEffect(() => {
+		// Last round is ready to work
+		if (!isReadyRef.current && typeof roundIdx === 'number' && roundIdx >= 0) {
+			isReadyRef.current = true;
+			onConnected?.(ref.current);
+		}
+	}, [roundIdx, onConnected]);
+
+	// Fetch last round index on mount
+	useEffect(() => {
+		const fetchRoundIdx = async () => {
+			try {
+				const round = await getLastRoundId();
+				setRoundIdx(round);
+			} catch (error) {
+				console.error("Error fetching last round index:", error);
+			}
+		};
+		fetchRoundIdx();
+	}, []);
 };

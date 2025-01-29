@@ -1,18 +1,17 @@
-import React, { createRef } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-import { Nottery, NotteryRef } from "./components/Lottery/Nottery";
+import { Nottery } from "./components/Lottery/Nottery";
 import classes from "./styles.module.scss";
 import { WidgetConfig } from "./types";
 
 declare global {
 	interface Window {
-		createWidget: (config: WidgetConfig) => Promise<NotteryRef | null>;
+		createWidget: (config: WidgetConfig) => void;
 	}
 }
 
 const createWidget = (config: WidgetConfig) => {
-	const lotteryRef = createRef<NotteryRef>();
 	const widgetContainer = document.getElementById(config.containerId);
 
 	if (!widgetContainer) {
@@ -23,27 +22,20 @@ const createWidget = (config: WidgetConfig) => {
 
 	const root = ReactDOM.createRoot(widgetContainer);
 
-	return new Promise<NotteryRef>((resolve) => {
-		root.render(
-			<React.StrictMode>
-				<TonConnectUIProvider
-					manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
-					actionsConfiguration={{
-						twaReturnUrl: "https://unknown-coin.com/lottery",
-					}}
-				>
-					<div className={classes.widgetContainer}>
-						<Nottery
-              onReady={() =>resolve(lotteryRef.current!)}
-							ref={lotteryRef}
-							className={classes.widget}
-							config={config}
-						/>
-					</div>
-				</TonConnectUIProvider>
-			</React.StrictMode>
-		);
-	});
+	root.render(
+		<React.StrictMode>
+			<TonConnectUIProvider
+				manifestUrl="https://app.unknown-coin.com/tonconnect-manifest.json"
+				actionsConfiguration={{
+					twaReturnUrl: "https://unknown-coin.com/lottery",
+				}}
+			>
+				<div className={classes.widgetContainer}>
+					<Nottery className={classes.widget} config={config} />
+				</div>
+			</TonConnectUIProvider>
+		</React.StrictMode>
+	);
 };
 
 window.createWidget = createWidget;
