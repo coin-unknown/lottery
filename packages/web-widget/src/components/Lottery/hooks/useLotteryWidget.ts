@@ -13,8 +13,6 @@ export const useLotteryWidget = (onReady: () => void) => {
 	const isReadyRef = useRef(false);
 	const [tonConnectUI] = useTonConnectUI();
 	const wallet = useTonWallet();
-	const [refWallet, setRefWallet] = useState<string | null>(null);
-	const [refBalance, setRefBalance] = useState<number>(0);
 	const [roundIdx, setRoundIdx] = useState<number | null>(null);
 
 	useEffect(() => {
@@ -39,28 +37,26 @@ export const useLotteryWidget = (onReady: () => void) => {
 	}, []);
 
 	// Fetch referral wallet data
-	useEffect(() => {
-		if (wallet) {
-			getRefferalData(wallet)
-				.then(({ refWallet, refReward }) => {
-					setRefWallet(refWallet);
-					setRefBalance(refReward);
-				})
-				.catch(console.error);
+	const getRefData = async () => {
+		if (!wallet) {
+			tonConnectUI.openModal();
+			return null;
 		}
-	}, [wallet]);
 
-	const buyTickets = async (qty: number) => {
+		return getRefferalData(wallet)
+	};
+
+	const buyTickets = async (qty: number, refWallet?: string) => {
 		if (!wallet) {
 			tonConnectUI.openModal();
 		}
-		if (!roundIdx) {
+		if (roundIdx === null) {
 			alert("Lottery round not found.");
 			return;
 		}
 		try {
 			const cost = await getTicketsPrice(roundIdx, qty);
-			await buyTicket(wallet, roundIdx, qty, cost, refWallet || undefined);
+			await buyTicket(tonConnectUI, roundIdx, qty, cost, refWallet);
 		} catch (error) {
 			console.error("Error buying tickets:", error);
 		}
@@ -72,7 +68,7 @@ export const useLotteryWidget = (onReady: () => void) => {
 			return;
 		}
 		try {
-			await createReferralWallet(wallet);
+			await createReferralWallet(tonConnectUI);
 		} catch (error) {
             console.error("Error registering referral wallet:", error);
 		}
@@ -84,7 +80,7 @@ export const useLotteryWidget = (onReady: () => void) => {
 			return;
 		}
 		try {
-			await claimReferralReward(wallet);
+			await claimReferralReward(tonConnectUI);
 		} catch (error) {
 			console.error("Error claiming referral reward:", error);
 		}
@@ -94,8 +90,7 @@ export const useLotteryWidget = (onReady: () => void) => {
 		buyTickets,
 		registerRefWallet,
 		claimRefReward,
-		refWallet,
-		refBalance,
+		getRefData,
 		wallet,
 	};
 };

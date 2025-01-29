@@ -10,7 +10,7 @@ export interface NotteryRef {
 	buyTickets: (qty: number) => void;
 	registerRefWallet: () => void;
 	claimRefReward: () => void;
-	getRefWallet: () => { refWallet: string | null; refBalance: number };
+	getRefData: () => Promise<{ refReward: number; refWallet: string; } | null>
 }
 
 interface NotteryProps {
@@ -20,21 +20,16 @@ interface NotteryProps {
 }
 
 export const Nottery = forwardRef<NotteryRef, NotteryProps>(
-	({ className = '', config, onReady }, ref) => {
-		const {
-			buyTickets,
-			registerRefWallet,
-			claimRefReward,
-			refWallet,
-			refBalance,
-		} = useLotteryWidget(onReady);
+	({ className = "", config, onReady }, ref) => {
+		const { buyTickets, registerRefWallet, claimRefReward, getRefData } =
+			useLotteryWidget(onReady);
 
 		// Expose methods via useImperativeHandle
 		useImperativeHandle(ref, () => ({
 			buyTickets,
 			registerRefWallet,
 			claimRefReward,
-			getRefWallet: () => ({ refWallet, refBalance }),
+			getRefData,
 		}));
 
 		return (
