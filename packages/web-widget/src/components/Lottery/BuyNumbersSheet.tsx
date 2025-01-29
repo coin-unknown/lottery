@@ -96,9 +96,9 @@ const BuyNumbersSheet: React.FC<IPopUpInsufficientBalanceProps> = ({
 							onChange={onQuantityChange}
 						/>
 						{!isLoading && discount > 0.012 ? (
-							<h2>
-								{"Discount:"} {`${Number(discount).toFixed(2)} TON`}
-							</h2>
+							<div>
+								{"Discount:"} {`${Number(discount).toFixed(2)} TON`} <br/>
+							</div>
 						) : null}
 						<MainButton
 							className={classes.buyButton}

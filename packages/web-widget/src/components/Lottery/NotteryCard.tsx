@@ -196,7 +196,7 @@ export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
           shining={true}
           className={classes.playButton}
           onClick={onBuyClick}
-          title={'Buy numbers 0.2 TON'}
+          title={'Buy tickets'}
         />
       </>
     );
