@@ -7,14 +7,23 @@ import {
 	buyTicket,
 } from "@coin-unknown/lottery-core";
 import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export const useLotteryWidget = () => {
+export const useLotteryWidget = (onReady: () => void) => {
+	const isReadyRef = useRef(false);
 	const [tonConnectUI] = useTonConnectUI();
 	const wallet = useTonWallet();
 	const [refWallet, setRefWallet] = useState<string | null>(null);
 	const [refBalance, setRefBalance] = useState<number>(0);
 	const [roundIdx, setRoundIdx] = useState<number | null>(null);
+
+	useEffect(() => {
+		// Last round is ready to work
+		if (!isReadyRef.current && typeof roundIdx === 'number' && roundIdx >= 0) {
+			isReadyRef.current = true;
+			onReady();
+		}
+	}, [roundIdx, onReady]);
 
 	// Fetch last round index on mount
 	useEffect(() => {

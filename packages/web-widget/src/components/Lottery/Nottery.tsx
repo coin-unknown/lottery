@@ -16,17 +16,18 @@ export interface NotteryRef {
 interface NotteryProps {
 	config: WidgetConfig;
 	className?: string;
+	onReady: () => void;
 }
 
 export const Nottery = forwardRef<NotteryRef, NotteryProps>(
-	({ className = '', config }, ref) => {
+	({ className = '', config, onReady }, ref) => {
 		const {
 			buyTickets,
 			registerRefWallet,
 			claimRefReward,
 			refWallet,
 			refBalance,
-		} = useLotteryWidget();
+		} = useLotteryWidget(onReady);
 
 		// Expose methods via useImperativeHandle
 		useImperativeHandle(ref, () => ({
