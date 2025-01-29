@@ -45,6 +45,8 @@ export const LotteryCard: React.FC<{config: WidgetConfig }> = (props) => {
   const requestRoundData = useCallback(
     async (idx?: number) => {
       let info: IRound;
+      await tonConnectUI.connectionRestored;
+      const wallet = tonConnectUI.wallet;
       const silent = idx === activeRoundIdx;
 
       if (!silent) {
