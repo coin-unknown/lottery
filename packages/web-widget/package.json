@@ -2,9 +2,9 @@
   "name": "@coin-unknown/lottery-widget",
   "version": "1.0.0",
   "type": "module",
-  "browser": "dist/index.iife",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "browser": "build/sdk-widget.iife.js",
+  "main": "build/sdk-widget.cjs",
+  "module": "build/sdk-widget.js",
   "scripts": {
     "dev": "concurrently \"vite --host\" \"npm run dev:css\"",
     "build": "concurrently \"tsc --jsx react-jsx && vite build\"",

@@ -2,7 +2,7 @@
 .docz
 .DS_Store
 .cache
-dist
+build
 
 # Logs
 logs
