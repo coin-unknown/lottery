@@ -4,12 +4,14 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import { useLotteryWidget } from "./hooks/useLotteryWidget";
 import { WidgetConfig } from "@/types";
 import LotteryCard from "./NotteryCard";
+import { IRound } from "@coin-unknown/lottery-core";
 
 // Define the exposed methods
 export interface NotteryRef {
 	buyTickets: (qty: number) => void;
 	registerRefWallet: () => void;
 	claimRefReward: () => void;
+	getRoundData: () => Promise<IRound>;
 	getRefData: () => Promise<{ refReward: number; refWallet: string } | null>;
 }
 

@@ -5,6 +5,7 @@ import {
 	claimReferralReward,
 	getTicketsPrice,
 	buyTicket,
+	getRoundGuest,
 } from "@coin-unknown/lottery-core";
 import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import { useState, useEffect, useRef, useImperativeHandle, RefObject } from "react";
@@ -65,12 +66,17 @@ export const useLotteryWidget = (ref: RefObject<NotteryRef>, onConnected?: (ref:
 		}
 	};
 
+	const getRoundData = async (roundIdx?: number) => {
+		return getRoundGuest(roundIdx);
+	};
+
 	// Expose methods via useImperativeHandle
 	useImperativeHandle(ref, () => ({
 		buyTickets,
 		registerRefWallet,
 		claimRefReward,
 		getRefData,
+		getRoundData,
 	}));
 
 	useEffect(() => {
