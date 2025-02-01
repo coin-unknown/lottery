@@ -1,6 +1,6 @@
 {
 	"name": "@coin-unknown/lottery-core",
-	"version": "0.0.25",
+	"version": "0.0.26",
 	"description": "My awesome typescript library",
 	"license": "MIT",
 	"exports": {
@@ -32,22 +32,22 @@
 		"prepublishOnly": "pnpm build"
 	},
 	"devDependencies": {
-		"bumpp": "10.0.1",
+		"bumpp": "9.10.1",
 		"esbuild-sass-plugin": "^3.3.1",
 		"rollup-plugin-dts": "latest",
 		"sass-embedded": "^1.83.4",
 		"typescript": "5.7.3",
-		"vite": "6.0.11",
+		"vite": "6.0.10",
 		"vite-plugin-dts": "^4.5.0",
-		"vitest": "3.0.4"
+		"vitest": "3.0.2"
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"dependencies": {
-		"@ton/core": "^0.60.0",
+		"@ton/core": "^0.59.1",
 		"@ton/crypto": "^3.3.0",
-		"@ton/ton": "^15.2.0",
+		"@ton/ton": "^15.1.0",
 		"@tonconnect/sdk": "^3.0.6"
 	}
 }
