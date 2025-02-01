@@ -38,7 +38,7 @@ async function restoreWalletV5(mnemonic: string) {
   const walletKeys = await getWalletFromMnemonic(mnemonic);
   const walletV5 = WalletContractV5R1.create({
     publicKey: walletKeys.publicKey,
-    walletId: { networkGlobalId: IS_TESTNET ? -3 : 0 },
+    walletId: { networkGlobalId: IS_TESTNET ? -3 : -239 },
   });
 
   return { walletV5, walletKeys };
