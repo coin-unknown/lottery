@@ -1,6 +1,6 @@
 {
 	"name": "@coin-unknown/lottery-core",
-	"version": "0.0.23",
+	"version": "0.0.24",
 	"description": "My awesome typescript library",
 	"license": "MIT",
 	"exports": {
