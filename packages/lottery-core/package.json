@@ -1,6 +1,6 @@
 {
 	"name": "@coin-unknown/lottery-core",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"description": "My awesome typescript library",
 	"license": "MIT",
 	"exports": {
@@ -45,7 +45,6 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@coin-unknown/lottery-core": "^0.0.12",
 		"@ton/core": "^0.59.1",
 		"@ton/crypto": "^3.3.0",
 		"@ton/ton": "^15.1.0",
