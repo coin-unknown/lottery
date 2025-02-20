@@ -264,10 +264,10 @@ export const getRound = async (
 				prizeAmount:
 					matched > 0
 						? Number(
-								fromNano(
-									await lottery.getCalculateRewardsForTicketId(BigInt(i))
-								)
-						  )
+							fromNano(
+								await lottery.getCalculateRewardsForTicketId(BigInt(i))
+							)
+						)
 						: 0,
 				matched,
 			};
@@ -322,7 +322,7 @@ export const getRefferalData = async (wallet: Wallet) => {
 	try {
 		const refBalance = await ref.getBalance();
 		refReward = Number(fromNano(refBalance));
-	} catch (e) {}
+	} catch (e) { }
 
 	refWallet = ref.address.toString();
 
@@ -657,6 +657,29 @@ async function _buyTicket(
 			recipient,
 			refWallet,
 		}
+	);
+
+	return true;
+}
+
+export const addFunds = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number,
+	amount: number
+) => {
+	const sender = getSender(tonConnect);
+
+	if (!sender.address) {
+		return false;
+	}
+
+	const lottery = await getLottery(roundIdx);
+	await lottery.send(
+		sender,
+		{
+			value: toNano(String(amount))
+		},
+		'addFunds'
 	);
 
 	return true;
