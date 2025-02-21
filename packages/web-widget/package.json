@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@coin-unknown/lottery-core": "^0.0.26",
+    "@coin-unknown/lottery-core": "^0.0.28",
     "@tonconnect/ui-react": "^2.0.11",
     "lucide-react": "^0.460.0",
     "motion": "^12.0.5",
@@ -40,6 +40,6 @@
   },
   "packageManager": "pnpm@8.13.1+sha1.90f9b2bb3ed58632bcb7b13c3902d6873ee9501c",
   "publishConfig": {
-		"access": "public"
-	}
+    "access": "public"
+  }
 }
