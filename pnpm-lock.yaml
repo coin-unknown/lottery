@@ -51,8 +51,8 @@ importers:
   packages/web-widget:
     dependencies:
       '@coin-unknown/lottery-core':
-        specifier: ^0.0.26
-        version: 0.0.26
+        specifier: ^0.0.28
+        version: link:../lottery-core
       '@tonconnect/ui-react':
         specifier: ^2.0.11
         version: 2.0.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -215,9 +215,6 @@ packages:
 
   '@bufbuild/protobuf@2.2.3':
     resolution: {integrity: sha512-tFQoXHJdkEOSwj5tRIZSPNUuXK3RaR7T1nUrPgbYX1pUbvqqaaZAsfo+NXBPsz5rZMSKVFrgK1WL8Q/MSLvprg==}
-
-  '@coin-unknown/lottery-core@0.0.26':
-    resolution: {integrity: sha512-LF11dU9IcNKPMtAUoc7pX4IcTG0r3UhR48WAAzpiPASqh3QhJ05HxOYfuGlfvEIENr5HjQcVXwWJuPaPBmlx3Q==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -2831,16 +2828,6 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.9
 
   '@bufbuild/protobuf@2.2.3': {}
-
-  '@coin-unknown/lottery-core@0.0.26':
-    dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
-      '@ton/crypto': 3.3.0
-      '@ton/ton': 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
-      '@tonconnect/sdk': 3.0.6
-    transitivePeerDependencies:
-      - debug
-      - encoding
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
