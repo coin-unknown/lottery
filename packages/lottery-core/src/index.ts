@@ -164,14 +164,14 @@ export const getRoundGuest = async (roundIdx?: number): Promise<IRound> => {
 			refWallet: null,
 			tickets: [],
 		},
+		tickets: [],
 	};
 
 	const lottery = await getLottery(roundIdx);
-	const [lotteryInfo, roundDraw] =
-		await Promise.all([
-			lottery.getInfo(),
-			lottery.getWinningNumber(),
-		]);
+	const [lotteryInfo, roundDraw] = await Promise.all([
+		lottery.getInfo(),
+		lottery.getWinningNumber(),
+	]);
 
 	// Reverse back number
 	let roundDrawString = "";
@@ -214,6 +214,7 @@ export const getRound = async (
 		claimable: false,
 		roundPot: "0",
 		roundDraw: "",
+		tickets: [],
 		userData: {
 			refReward: 0,
 			refWallet: null,
@@ -250,30 +251,30 @@ export const getRound = async (
 	}
 
 	for (let i = 0; i < tickets.size; i++) {
-		const ticket = tickets.get(BigInt(i));
+		const bigI = BigInt(i);
+		const ticket = tickets.get(bigI);
 		const ticketString = getReadableTicketNumber(ticket?.number ?? 0);
 		const isMyTicket = ticket?.owner.equals(walletAddress);
+		const matched = roundDrawString
+			? getTicketMatch(ticketString, roundDrawString)
+			: 0;
+
+		const ticketData: ITicket = {
+			id: i,
+			numbers: ticketString,
+			prizeAmount: 0,
+			matched,
+			address: ticket?.owner.toString({ urlSafe: true }) || "",
+		};
 
 		if (isMyTicket) {
-			const matched = roundDrawString
-				? getTicketMatch(ticketString, roundDrawString)
-				: 0;
-			const ticketData: ITicket = {
-				id: i,
-				numbers: ticketString,
-				prizeAmount:
-					matched > 0
-						? Number(
-							fromNano(
-								await lottery.getCalculateRewardsForTicketId(BigInt(i))
-							)
-						)
-						: 0,
-				matched,
-			};
-
 			response.userData.tickets.push(ticketData);
+			const prize =
+				matched > 0 ? await lottery.getCalculateRewardsForTicketId(bigI) : 0;
+			ticketData.prizeAmount = Number(fromNano(prize)) || 0;
 		}
+
+		response.tickets.push(ticketData);
 	}
 
 	const endTime = Number(lotteryInfo.endTime) * 1000;
@@ -308,7 +309,7 @@ export const createReferralWallet = async (tonConnect: TonConnect | any) => {
 
 /**
  * Get you ref wallet address in lottery smart contract
- * @param wallet 
+ * @param wallet
  */
 export const getRefferalData = async (wallet: Wallet) => {
 	let refReward = 0;
@@ -316,18 +317,20 @@ export const getRefferalData = async (wallet: Wallet) => {
 
 	const factory = await getFactory();
 	// TODO: test it
-	const refAddress = await factory.getReferrerWalletAddress(Address.parse(wallet.account.address));
+	const refAddress = await factory.getReferrerWalletAddress(
+		Address.parse(wallet.account.address)
+	);
 	const ref = await getRefWallet(refAddress);
 
 	try {
 		const refBalance = await ref.getBalance();
 		refReward = Number(fromNano(refBalance));
-	} catch (e) { }
+	} catch (e) {}
 
 	refWallet = ref.address.toString();
 
 	return { refReward, refWallet };
-}
+};
 
 /**
  * Withdraw	referral rewards
@@ -611,6 +614,38 @@ export const _emergencyWitdraw = async (
 	);
 };
 
+
+/**
+ * Add funds to the lottery
+ * @requires admin
+ * @param tonConnect 
+ * @param roundIdx 
+ * @param amount 
+ * @returns 
+ */
+export const _addFunds = async (
+	tonConnect: TonConnect | any,
+	roundIdx: number,
+	amount: number
+) => {
+	const sender = getSender(tonConnect);
+
+	if (!sender.address) {
+		return false;
+	}
+
+	const lottery = await getLottery(roundIdx);
+	await lottery.send(
+		sender,
+		{
+			value: toNano(String(amount)),
+		},
+		"addFunds"
+	);
+
+	return true;
+};
+
 type BuyTicketParams = {
 	roundIdx: number;
 	qty: number;
@@ -662,25 +697,3 @@ async function _buyTicket(
 	return true;
 }
 
-export const addFunds = async (
-	tonConnect: TonConnect | any,
-	roundIdx: number,
-	amount: number
-) => {
-	const sender = getSender(tonConnect);
-
-	if (!sender.address) {
-		return false;
-	}
-
-	const lottery = await getLottery(roundIdx);
-	await lottery.send(
-		sender,
-		{
-			value: toNano(String(amount))
-		},
-		'addFunds'
-	);
-
-	return true;
-}

@@ -21,6 +21,7 @@ export interface ITicket {
 	numbers: string;
 	prizeAmount: number;
 	matched: number;
+	address?: string;
 }
 
 export interface IUserData {
@@ -39,4 +40,5 @@ export interface IRound {
 	roundPot: string;
 	roundDraw: string;
 	userData: IUserData;
+	tickets: ITicket[];
 }
