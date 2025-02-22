@@ -498,7 +498,8 @@ export const setOperator = async (
  */
 export const createRound = async (
 	tonConnect: TonConnect | any,
-	drawAt: number
+	drawAt: number,
+	price: number = 0.2,
 ) => {
 	const sender = getSender(tonConnect);
 
@@ -515,7 +516,7 @@ export const createRound = async (
 		{
 			$$type: "Create",
 			endTime: BigInt(Math.floor(drawAt / 1000)),
-			price: toNano("0.2"),
+			price: toNano(price),
 			discountDivisor: BigInt(300),
 		}
 	);
