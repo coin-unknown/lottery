@@ -606,8 +606,7 @@ export const _emergencyWitdraw = async (
 	await factory.send(
 		sender,
 		{
-			value: toNano("3"),
-			bounce: true,
+			value: toNano("0.02"),
 		},
 		{
 			$$type: "EmergencyWithdraw",
