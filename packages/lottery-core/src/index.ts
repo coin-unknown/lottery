@@ -376,11 +376,12 @@ export const buyTicket = async (
 	roundIdx: number,
 	qty: number,
 	cost: number,
+	numbers?: string[],
 	ref?: string
 ) => {
 	const refWallet = ref ? Address.parse(ref) : undefined;
 
-	return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet });
+	return _buyTicket(tonConnect, { roundIdx, qty, cost, refWallet, numbers });
 };
 
 /**
@@ -653,6 +654,7 @@ type BuyTicketParams = {
 	cost: number;
 	recipient?: Address;
 	refWallet?: Address;
+	numbers?: string[];
 };
 
 async function _buyTicket(
@@ -671,12 +673,14 @@ async function _buyTicket(
 		cost,
 		refWallet = null,
 		recipient = sender.address,
+		numbers,
 	} = params;
 	const ticketNumbers: Dictionary<number, number> = Dictionary.empty();
 
 	for (let i = 0; i < qty; i++) {
 		const rnd = 1000000 * Math.random();
-		ticketNumbers.set(i, Number.parseInt(rnd.toString()) + 1000000);
+		const number = numbers ? numbers[i] : Number.parseInt(rnd.toString());
+		ticketNumbers.set(i, Number(number) + 1000000);
 	}
 
 	const lottery = await getLottery(roundIdx);
